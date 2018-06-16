@@ -4,7 +4,7 @@ SmartBreadcrumbs is a .NET Core utility library for asp.net-core websites to eas
 
 ## How it works
 
-At initialisation, SmartBreadcrumbs will create a node hierachy using all the breadcrumb attributes used on Actions. You'll then be able to use a TagHelper that will check if the current action/controller has a node and will render the breadcrumb element if found.
+At initialisation, SmartBreadcrumbs will create a node hierachy using all the breadcrumb attributes used on Actions. You'll then be able to use a TagHelper that will check if the current action/controller has a node and will render the breadcrumb element if found.  
 By default, SmartBreadcrumbs uses Bootstrap 4's classes to style the breadcrumbs.
 
 ## Install
@@ -63,7 +63,8 @@ FYI: You'll receive an error if you don't set a default node or if there is more
 
 #### Manually setting the current nodes
 
-In some cases , you would like to set the current nodes yourself. For example, you want the titles of some nodes to be taken from the database or something. Luckly, SmartBreadcrumbs can trust you on this:
+In some cases , you would like to set the current nodes yourself. For example, you want the titles of some nodes to be taken from the database or something.  
+Luckly, SmartBreadcrumbs can trust you on this:
 ```csharp
 public IActionResult Action2()
 {
@@ -82,9 +83,9 @@ public IActionResult Action2()
 
 ### Rendering using the TagHelper
 
-The last step is to make use of the taghelper to render the breadcrumbs:
-`<breadcrumb></breadcrumb`
-Don't forget to import it in `_ViewImports.cshtml`:
+The last step is to make use of the taghelper to render the breadcrumbs:  
+`<breadcrumb></breadcrumb`  
+Don't forget to import it in `_ViewImports.cshtml`:  
 `@addTagHelper *, SmartBreadcrumbs`
 
 ### Result
@@ -101,5 +102,5 @@ Don't forget to import it in `_ViewImports.cshtml`:
 
 ## Credits & License
 
-Credits: zHaytam
+Credits: zHaytam  
 License: SmartBreadcrumbs is open source, licensed under the [MIT License](https://github.com/zHaytam/SmartBreadcrumbs/blob/master/LICENSE).
