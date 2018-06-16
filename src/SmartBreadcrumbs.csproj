@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>zHaytam</Authors>
+    <Company />
+    <Product>SmartBreadcrumbs</Product>
+    <RepositoryUrl>https://github.com/zHaytam/SmartBreadcrumbs</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/zHaytam/SmartBreadcrumbs</PackageProjectUrl>
+    <Description>A utility library for ASP.NET Core websites to easily add and customize breadcrumbs.</Description>
+    <PackageTags>asp-net-core breadcrumbs utility-library bootstrap smartbreadcrumbs</PackageTags>
+    <Copyright>zHaytam</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

@@ -9,7 +9,8 @@ By default, SmartBreadcrumbs uses Bootstrap 4's classes to style the breadcrumbs
 
 ## Install
 
-Soon
+SmartBreadcrumbs is available on Nuget:  
+`Install-Package SmartBreadcrumbs`
 
 ## Usage
 
