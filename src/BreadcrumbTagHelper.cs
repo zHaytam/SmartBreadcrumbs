@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -43,21 +42,21 @@ namespace SmartBreadcrumbs
                 return;
 
             output.TagName = _breadcrumbsManager.Options.TagName;
-            output.Content.AppendHtml($"<ol class=\"{string.Join(' ', _breadcrumbsManager.Options.OlClasses)}\">");
+            output.Content.AppendHtml($"<ol class=\"{_breadcrumbsManager.Options.OlClasses}\">");
 
             var sb = new StringBuilder();
-            sb.Append($"<li class=\"{string.Join(' ', _breadcrumbsManager.Options.LiClasses)}\">{ExtractTitle(node.Title)}</li>");
+            sb.Append($"<li class=\"{_breadcrumbsManager.Options.ActiveLiClasses}\">{ExtractTitle(node.Title)}</li>");
 
             while (node.Parent != null)
             {
                 node = node.Parent;
-                sb.Insert(0, $"<li class=\"breadcrumb-item\"><a href=\"{node.GetUrl(_urlHelper)}\">{node.Title}</a></li>");
+                sb.Insert(0, $"<li class=\"{_breadcrumbsManager.Options.LiClasses}\"><a href=\"{node.GetUrl(_urlHelper)}\">{node.Title}</a></li>");
             }
 
             // If the node was custom and it had no defaultnode
             if (node != _breadcrumbsManager.DefaultNode)
             {
-                sb.Insert(0, $"<li class=\"breadcrumb-item\"><a href=\"{_breadcrumbsManager.DefaultNode.GetUrl(_urlHelper)}\">{_breadcrumbsManager.DefaultNode.Title}</a></li>");
+                sb.Insert(0, $"<li class=\"{_breadcrumbsManager.Options.LiClasses}\"><a href=\"{_breadcrumbsManager.DefaultNode.GetUrl(_urlHelper)}\">{_breadcrumbsManager.DefaultNode.Title}</a></li>");
             }
 
             output.Content.AppendHtml(sb.ToString());
