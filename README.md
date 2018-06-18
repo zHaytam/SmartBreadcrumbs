@@ -100,6 +100,11 @@ Don't forget to import it in `_ViewImports.cshtml`:
 </nav>
 ```
 
+## More customization?
+
+Since SmartBreadcrumbs initializes the nodes hiearchy in the beginning, you have the ability to not use the `breadcrumb` TagHelper and just create yours.  
+You'll have access to a `BreadcrumbsManager` in your services that has the nodes. You can use them to create your own TagHelper for example.
+
 ## Credits & License
 
 Credits: zHaytam  
