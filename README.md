@@ -1,5 +1,7 @@
 # SmartBreadcrumbs
 
+![Image](https://i.imgur.com/zLgObJh.png)
+
 SmartBreadcrumbs is a .NET Core utility library for asp.net-core websites to easily add and customize breadcrumbs. It is easy to setup and even easier to use!
 
 ## How it works
