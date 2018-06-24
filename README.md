@@ -6,7 +6,7 @@ SmartBreadcrumbs is a .NET Core utility library for asp.net-core websites to eas
 
 ## How it works
 
-At initialisation, SmartBreadcrumbs will create a node hierachy using all the breadcrumb attributes used on Actions. You'll then be able to use a TagHelper that will check if the current action/controller has a node and will render the breadcrumb element if found.  
+At initialization, SmartBreadcrumbs will create a node hierarchy using all the breadcrumb attributes used on Actions. You'll then be able to use a TagHelper that will check if the current action/controller has a node and will render the breadcrumb element if found.  
 By default, SmartBreadcrumbs uses Bootstrap 4's classes to style the breadcrumbs.
 
 ## Install
@@ -16,7 +16,7 @@ SmartBreadcrumbs is available on Nuget:
 
 ## Usage
 
-### Initialisation
+### Initialization
 
 ```csharp
 services.UseBreadcrumbs(GetType().Assembly);
@@ -66,7 +66,7 @@ FYI: You'll receive an error if you don't set a default node or if there is more
 #### Manually setting the current nodes
 
 In some cases , you would like to set the current nodes yourself. For example, you want the titles of some nodes to be taken from the database or something.  
-Luckly, SmartBreadcrumbs can trust you on this:
+Luckily, SmartBreadcrumbs can trust you on this:
 ```csharp
 public IActionResult Action2()
 {
