@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -7,9 +8,9 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace SmartBreadcrumbs
 {
+    [HtmlTargetElement("breadcrumb")]
     public class BreadcrumbTagHelper : TagHelper
     {
-
         #region Fields
 
         private readonly BreadcrumbsManager _breadcrumbsManager;
@@ -20,6 +21,7 @@ namespace SmartBreadcrumbs
         #region Properties
 
         [ViewContext]
+        [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
 
         #endregion
@@ -30,27 +32,30 @@ namespace SmartBreadcrumbs
             _urlHelper = new UrlHelper(actionContextAccessor.ActionContext);
         }
 
-        public override void Process(TagHelperContext context, TagHelperOutput output)
+        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
+            var child = await output.GetChildContentAsync();
+
             string action = ViewContext.ActionDescriptor.RouteValues["action"];
             string controller = ViewContext.ActionDescriptor.RouteValues["controller"];
 
             var nodeKey = $"{controller}.{action}";
             var node = ViewContext.ViewData["BreadcrumbNode"] as BreadcrumbNode ?? _breadcrumbsManager.GetNode(nodeKey);
 
-            if (node == null)
-                return;
-
             output.TagName = _breadcrumbsManager.Options.TagName;
             output.Content.AppendHtml($"<ol class=\"{_breadcrumbsManager.Options.OlClasses}\">");
 
             var sb = new StringBuilder();
-            sb.Append($"<li class=\"{_breadcrumbsManager.Options.ActiveLiClasses}\">{ExtractTitle(node.Title)}</li>");
 
-            while (node.Parent != null)
+            if (node != null)
             {
-                node = node.Parent;
-                sb.Insert(0, $"<li class=\"{_breadcrumbsManager.Options.LiClasses}\"><a href=\"{node.GetUrl(_urlHelper)}\">{node.Title}</a></li>");
+                sb.Append($"<li class=\"{_breadcrumbsManager.Options.ActiveLiClasses}\">{ExtractTitle(node.Title)}</li>");
+
+                while (node.Parent != null)
+                {
+                    node = node.Parent;
+                    sb.Insert(0, $"<li class=\"{_breadcrumbsManager.Options.LiClasses}\"><a href=\"{node.GetUrl(_urlHelper)}\">{node.Title}</a></li>");
+                }
             }
 
             // If the node was custom and it had no defaultnode
@@ -60,6 +65,11 @@ namespace SmartBreadcrumbs
             }
 
             output.Content.AppendHtml(sb.ToString());
+
+            output.Content.AppendHtml(child);
+
+            output.Content.AppendHtml("</ol>");
+
         }
 
         private string ExtractTitle(string title)

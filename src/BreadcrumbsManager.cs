@@ -42,19 +42,27 @@ namespace SmartBreadcrumbs
 
             foreach (var type in assembly.GetTypes())
             {
-                if (type.BaseType != controllerType)
+                if (!controllerType.IsAssignableFrom(type))
                     continue;
 
                 string controller = type.Name.Replace("Controller", "");
 
                 foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public))
                 {
-                    if (method.ReturnType != actionResultType && method.ReturnType != taResultType)
+                    if (!actionResultType.IsAssignableFrom(method.ReturnType) && !taResultType.IsAssignableFrom(method.ReturnType))
                         continue;
 
                     var attr = method.GetCustomAttribute<BreadcrumbAttribute>();
                     if (attr == null)
                         continue;
+
+                    if (attr.FromAction != null && !attr.FromAction.Contains("."))
+                    {
+                        if (!string.IsNullOrEmpty(attr.FromController))
+                            attr.FromAction = $"{attr.FromController.Replace("Controller", "")}.{attr.FromAction}";
+                        else
+                            attr.FromAction = $"{controller}.{attr.FromAction}";
+                    }
 
                     attr.Action = $"{controller}.{method.Name}";
                     breadcrumbAttrs.Add(attr);
@@ -70,18 +78,22 @@ namespace SmartBreadcrumbs
 
         #region Private Methods
 
-        private void GenerateHierarchy(ICollection<BreadcrumbAttribute> breadcrumbAttrs)
+        private void GenerateHierarchy(IEnumerable<BreadcrumbAttribute> breadcrumbAttrs)
         {
             // Default node
-            var defaultBreadcrumbAttr = breadcrumbAttrs.First(ba => ba.Default);
+            var defaultBreadcrumbAttr = breadcrumbAttrs.FirstOrDefault(ba => ba.Default);
             if (defaultBreadcrumbAttr == null)
                 throw new System.Exception("Default breadcrumb attribute not found.");
 
             DefaultNode = new BreadcrumbNode(defaultBreadcrumbAttr);
-            breadcrumbAttrs.Remove(defaultBreadcrumbAttr);
+            if (!_nodes.ContainsKey(defaultBreadcrumbAttr.Action))
+                _nodes.Add(defaultBreadcrumbAttr.Action, DefaultNode);
 
             foreach (var attr in breadcrumbAttrs)
             {
+                if (attr.Default)
+                    continue;
+
                 // Create the node if needed
                 if (!_nodes.ContainsKey(attr.Action))
                     _nodes.Add(attr.Action, new BreadcrumbNode(attr));
