@@ -107,6 +107,15 @@ Don't forget to import it in `_ViewImports.cshtml`:
 Since SmartBreadcrumbs initializes the nodes hiearchy in the beginning, you have the ability to not use the `breadcrumb` TagHelper and just create yours.  
 You'll have access to a `BreadcrumbsManager` in your services that has the nodes. You can use them to create your own TagHelper for example.
 
+## ChangeLog
+
+**1.0.0**  
+Initial release
+
+**1.0.1**
+- SmartBreadcrumbs can now handle controllers that don't have direct inheritance of Controller (denis-pujdak-adm-it).
+- Other type of IActionResult are also handled (denis-pujdak-adm-it).
+
 ## Credits & License
 
 Credits: zHaytam  
