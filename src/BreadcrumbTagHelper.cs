@@ -49,9 +49,7 @@ namespace SmartBreadcrumbs
 
             if (node != null)
             {
-               node.Title = ExtractTitle(node.Title);
-               sb.Append($"<li class=\"{_breadcrumbsManager.Options.ActiveLiClasses}\">{node.Title}</li>");
-
+                sb.Append($"<li class=\"{_breadcrumbsManager.Options.ActiveLiClasses}\">{ExtractTitle(node.Title)}</li>");
 
                 while (node.Parent != null)
                 {
