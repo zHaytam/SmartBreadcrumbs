@@ -49,6 +49,9 @@ namespace SmartBreadcrumbs
 
             if (node != null)
             {
+                if (node.CacheTitle && node.Title.StartsWith("ViewData."))
+                    node.Title = ExtractTitle(node.Title);
+
                 sb.Append($"<li class=\"{_breadcrumbsManager.Options.ActiveLiClasses}\">{ExtractTitle(node.Title)}</li>");
 
                 while (node.Parent != null)

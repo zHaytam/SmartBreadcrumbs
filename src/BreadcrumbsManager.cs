@@ -78,7 +78,7 @@ namespace SmartBreadcrumbs
 
         #region Private Methods
 
-        private void GenerateHierarchy(IEnumerable<BreadcrumbAttribute> breadcrumbAttrs)
+        private void GenerateHierarchy(IReadOnlyCollection<BreadcrumbAttribute> breadcrumbAttrs)
         {
             // Default node
             var defaultBreadcrumbAttr = breadcrumbAttrs.FirstOrDefault(ba => ba.Default);

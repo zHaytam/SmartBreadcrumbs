@@ -5,10 +5,6 @@ namespace SmartBreadcrumbs
     [AttributeUsage(AttributeTargets.Method)]
     public class BreadcrumbAttribute : Attribute
     {
-        public BreadcrumbAttribute(string title)
-        {
-            Title = title;
-        }
 
         #region Properties
 
@@ -27,9 +23,16 @@ namespace SmartBreadcrumbs
         /// </summary>
         public virtual string FromController { get; set; }
 
-        public virtual bool Default { get { return false; } }
+        public virtual bool CacheTitle { get; set; }
+
+        public virtual bool Default => false;
 
         #endregion
+
+        public BreadcrumbAttribute(string title)
+        {
+            Title = title;
+        }
 
     }
 
@@ -37,6 +40,6 @@ namespace SmartBreadcrumbs
     {
         public DefaultBreadcrumbAttribute(string title) : base(title) { }
 
-        public override bool Default { get { return true; } }
+        public override bool Default => true;
     }
 }

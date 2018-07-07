@@ -5,22 +5,6 @@ namespace SmartBreadcrumbs
 {
     public class BreadcrumbNode
     {
-        public BreadcrumbNode(BreadcrumbAttribute attr)
-        {
-            Title = attr.Title;
-            string[] tmp = attr.Action.Split('.');
-            Controller = tmp[0];
-            Action = tmp[1];
-        }
-
-        public BreadcrumbNode(string title, string action, string controller, object routeValues = null, BreadcrumbNode parent = null)
-        {
-            Title = title;
-            Action = action;
-            Controller = controller;
-            RouteValues = routeValues;
-            Parent = parent;
-        }
 
         #region Properties
 
@@ -34,7 +18,27 @@ namespace SmartBreadcrumbs
 
         public object RouteValues { get; set; }
 
+        public bool CacheTitle { get; set; }
+
         #endregion
+
+        public BreadcrumbNode(BreadcrumbAttribute attr)
+        {
+            Title = attr.Title;
+            string[] tmp = attr.Action.Split('.');
+            Controller = tmp[0];
+            Action = tmp[1];
+            CacheTitle = attr.CacheTitle;
+        }
+
+        public BreadcrumbNode(string title, string action, string controller, object routeValues = null, BreadcrumbNode parent = null)
+        {
+            Title = title;
+            Action = action;
+            Controller = controller;
+            RouteValues = routeValues;
+            Parent = parent;
+        }
 
         #region Public Methods
 
