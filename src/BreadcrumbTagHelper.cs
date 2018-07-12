@@ -43,6 +43,13 @@ namespace SmartBreadcrumbs
             var node = ViewContext.ViewData["BreadcrumbNode"] as BreadcrumbNode ?? _breadcrumbsManager.GetNode(nodeKey);
 
             output.TagName = _breadcrumbsManager.Options.TagName;
+            
+            // Tag Classes
+            if (!string.IsNullOrEmpty(_breadcrumbsManager.Options.TagClasses))
+            {
+                output.Attributes.Add("class", _breadcrumbsManager.Options.TagClasses);
+            }
+
             output.Content.AppendHtml($"<ol class=\"{_breadcrumbsManager.Options.OlClasses}\">");
 
             var sb = new StringBuilder();
@@ -52,25 +59,36 @@ namespace SmartBreadcrumbs
                 if (node.CacheTitle && node.Title.StartsWith("ViewData."))
                     node.Title = ExtractTitle(node.Title);
 
-                sb.Append($"<li class=\"{_breadcrumbsManager.Options.ActiveLiClasses}\">{ExtractTitle(node.Title)}</li>");
+                sb.Append($"<li{GetClass(_breadcrumbsManager.Options.ActiveLiClasses)}>{ExtractTitle(node.Title)}</li>");
 
                 while (node.Parent != null)
                 {
                     node = node.Parent;
-                    sb.Insert(0, $"<li class=\"{_breadcrumbsManager.Options.LiClasses}\"><a href=\"{node.GetUrl(_urlHelper)}\">{node.Title}</a></li>");
+
+                    // Separator
+                    if (_breadcrumbsManager.Options.HasSeparatorElement)
+                    {
+                        sb.Insert(0, _breadcrumbsManager.Options.SeparatorElement);
+                    }
+
+                    sb.Insert(0, $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{node.GetUrl(_urlHelper)}\">{node.Title}</a></li>");
                 }
             }
 
             // If the node was custom and it had no defaultnode
             if (node != _breadcrumbsManager.DefaultNode)
             {
-                sb.Insert(0, $"<li class=\"{_breadcrumbsManager.Options.LiClasses}\"><a href=\"{_breadcrumbsManager.DefaultNode.GetUrl(_urlHelper)}\">{_breadcrumbsManager.DefaultNode.Title}</a></li>");
+                // Separator
+                if (_breadcrumbsManager.Options.HasSeparatorElement)
+                {
+                    sb.Insert(0, _breadcrumbsManager.Options.SeparatorElement);
+                }
+
+                sb.Insert(0, $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{_breadcrumbsManager.DefaultNode.GetUrl(_urlHelper)}\">{_breadcrumbsManager.DefaultNode.Title}</a></li>");
             }
 
             output.Content.AppendHtml(sb.ToString());
-
             output.Content.AppendHtml(child);
-
             output.Content.AppendHtml("</ol>");
 
         }
@@ -82,6 +100,14 @@ namespace SmartBreadcrumbs
 
             string key = title.Substring(9);
             return ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : key;
+        }
+
+        private string GetClass(string classes)
+        {
+            if (string.IsNullOrEmpty(classes))
+                return "";
+
+            return $" class=\"{classes}\"";
         }
 
     }

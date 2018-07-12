@@ -1,3 +1,4 @@
+
 # SmartBreadcrumbs
 
 ![Image](https://i.imgur.com/zLgObJh.png)
@@ -29,11 +30,14 @@ You can also specify some options when initializing SmartBreadcrumbs:
 services.UseBreadcrumbs(GetType().Assembly, options =>
 {
 	TagName = "nav";
+	TagClasses = "";
 	OlClasses = "breadcrumb";
 	LiClasses = "breadcrumb-item";
 	ActiveLiClasses = "breadcrumb-item active";
+	SeparatorElement = "<li class=\"separator\">/</li>";
 });
 ```
+The SeperatorElement will be added after each node, use it when you're using a custom theme/template for example.
 
 ### Adding nodes
 
@@ -49,14 +53,19 @@ public IActionResult Index()
 }
 
 [Breadcrumb("ViewData.Title", FromAction = "Home.Index")]
+[Breadcrumb("ViewData.Title", CacheTitle = true, FromAction = "Home.Index")]
 public IActionResult Action1()
 {
 	// Here we set Home.Action1 to be a child of Home.Index by using
 	// the FromAction property (Controller.Action)
 	ViewData["Title"] = "Action 1";
+	
 	// The title in this case is "ViewData.Title", SmartBreadcrumbs
 	// will then look for "Title" in the ViewData and use it
 	// as a title for the node.
+	
+	// The CatchTitle option will replace the node's title with the
+	// value of ViewData.Title, so use it when needed.
 	return View();
 }
 ```
@@ -113,8 +122,14 @@ You'll have access to a `BreadcrumbsManager` in your services that has the nodes
 Initial release
 
 **1.0.1**
-- SmartBreadcrumbs can now handle controllers that don't have direct inheritance of Controller (denis-pujdak-adm-it).
-- Other type of IActionResult are also handled (denis-pujdak-adm-it).
+- SmartBreadcrumbs can now handle controllers that don't have direct inheritance of Controller (Thanks to denis-pujdak-adm-it).
+- Other type of IActionResult are also handled (Thanks to denis-pujdak-adm-it).
+
+**1.0.2**
+- Added option to cache node titles coming from the ViewData (see [Using the Breadcrumb attribute](https://github.com/zHaytam/SmartBreadcrumbs#using-the-breadcrumb-attribute)) (Thanks to Tronhus).
+
+**1.0.3**
+- Added TagClasses and SeparatorElement properties, see the [Options](https://github.com/zHaytam/SmartBreadcrumbs#options) section.
 
 ## Credits & License
 

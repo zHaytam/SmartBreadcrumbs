@@ -10,16 +10,16 @@
     <Description>A utility library for ASP.NET Core websites to easily add and customize breadcrumbs.</Description>
     <PackageTags>asp-net-core breadcrumbs utility-library bootstrap smartbreadcrumbs</PackageTags>
     <Copyright>zHaytam</Copyright>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
