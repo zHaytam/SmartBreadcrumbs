@@ -44,7 +44,7 @@ The SeperatorElement will be added after each node, use it when you're using a c
 #### Using the Breadcrumb attribute:
 
 ```csharp
-[Breadcrumb("My home", DefaultNode = true)]
+[DefaultBreadcrumb("My home")]
 public IActionResult Index()
 {
 	// We set the Home.Index as the default node
@@ -63,7 +63,7 @@ public IActionResult Action1()
 	// The title in this case is "ViewData.Title", SmartBreadcrumbs
 	// will then look for "Title" in the ViewData and use it
 	// as a title for the node.
-	
+
 	// The CatchTitle option will replace the node's title with the
 	// value of ViewData.Title, so use it when needed.
 	return View();
@@ -82,9 +82,11 @@ public IActionResult Action2()
 	// Manually create the nodes (assuming you used the attribute
 	// to create a Default node, otherwise create it manually too).
 	var childNode1 = new BreadcrumbNode("Action 1", "Home", "Action1", null, new { id = 10 });
+	
 	// When manually creating nodes, you have the option to use
 	// route values in case you need them
 	var childNode2 = new BreadcrumbNode("Action 2", "Home", "Action2", childNode1);
+	
 	// All you have to do now is tell SmartBreadcrumbs about this
 	ViewData["BreadcrumbNode"] = childNode2; // Use the last node
 	
