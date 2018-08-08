@@ -133,6 +133,9 @@ Initial release
 **1.0.3**
 - Added TagClasses and SeparatorElement properties, see the [Options](https://github.com/zHaytam/SmartBreadcrumbs#options) section.
 
+**1.0.3.2**
+- Fixed the missing IActionContextAccessor error (using TryAddScoped the service).
+
 ## Credits & License
 
 Credits: zHaytam  
