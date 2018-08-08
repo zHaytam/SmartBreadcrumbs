@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SmartBreadcrumbs
 {
@@ -24,6 +26,7 @@ namespace SmartBreadcrumbs
             var bm = new BreadcrumbsManager();
             bm.Initialize(assembly, options);
             services.AddSingleton(bm);
+            services.TryAddScoped<IActionContextAccessor, ActionContextAccessor>();
         }
 
     }
