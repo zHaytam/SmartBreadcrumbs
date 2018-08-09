@@ -26,7 +26,7 @@ namespace SmartBreadcrumbs
             var bm = new BreadcrumbsManager();
             bm.Initialize(assembly, options);
             services.AddSingleton(bm);
-            services.TryAddScoped<IActionContextAccessor, ActionContextAccessor>();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
     }
