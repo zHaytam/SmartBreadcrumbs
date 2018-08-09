@@ -5,6 +5,8 @@
 
 SmartBreadcrumbs is a .NET Core utility library for asp.net-core websites to easily add and customize breadcrumbs. It is easy to setup and even easier to use!
 
+There is also a blog post that shows how to use this library here: [Managing breadcrumbs in ASP.NET core using SmartBreadcrumbs](https://blog.zhaytam.com/2018/06/24/asp-net-core-using-smartbreadcrumbs/).
+
 ## How it works
 
 At initialization, SmartBreadcrumbs will create a node hierarchy using all the breadcrumb attributes used on Actions. You'll then be able to use a TagHelper that will check if the current action/controller has a node and will render the breadcrumb element if found.  
