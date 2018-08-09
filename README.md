@@ -138,6 +138,9 @@ Initial release
 **1.0.3.2**
 - Fixed the missing IActionContextAccessor error (using TryAddScoped the service).
 
+**1.0.3.3**
+- Fix IActionContextAccessor DI register (Thanks to askalione).
+
 ## Credits & License
 
 Credits: zHaytam  
