@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartBreadcrumbs
 {
-    public class BreadcrumbsManager
+    public class BreadcrumbManager
     {
 
         #region Fields
@@ -23,7 +23,7 @@ namespace SmartBreadcrumbs
 
         #endregion
 
-        public BreadcrumbsManager()
+        public BreadcrumbManager()
         {
             _nodes = new Dictionary<string, BreadcrumbNode>();
         }

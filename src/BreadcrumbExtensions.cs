@@ -23,7 +23,7 @@ namespace SmartBreadcrumbs
 
         private static void AddBreadcrumbs(IServiceCollection services, Assembly assembly, BreadcrumbOptions options)
         {
-            var bm = new BreadcrumbsManager();
+            var bm = new BreadcrumbManager();
             bm.Initialize(assembly, options);
             services.AddSingleton(bm);
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();

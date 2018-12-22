@@ -13,7 +13,7 @@ namespace SmartBreadcrumbs
     {
         #region Fields
 
-        private readonly BreadcrumbsManager _breadcrumbsManager;
+        private readonly BreadcrumbManager _breadcrumbsManager;
         private readonly UrlHelper _urlHelper;
 
         #endregion
@@ -26,7 +26,7 @@ namespace SmartBreadcrumbs
 
         #endregion
 
-        public BreadcrumbTagHelper(BreadcrumbsManager breadcrumbsManager, IActionContextAccessor actionContextAccessor)
+        public BreadcrumbTagHelper(BreadcrumbManager breadcrumbsManager, IActionContextAccessor actionContextAccessor)
         {
             _breadcrumbsManager = breadcrumbsManager;
             _urlHelper = new UrlHelper(actionContextAccessor.ActionContext);
