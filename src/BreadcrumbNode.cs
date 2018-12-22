@@ -5,6 +5,7 @@ namespace SmartBreadcrumbs
 {
     public class BreadcrumbNode
     {
+        private readonly string _originTitle;
 
         #region Properties
 
@@ -20,15 +21,19 @@ namespace SmartBreadcrumbs
 
         public bool CacheTitle { get; set; }
 
+        public bool OverwriteTitleOnExactMatch { get; set; }
+
         #endregion
 
         public BreadcrumbNode(BreadcrumbAttribute attr)
         {
+            _originTitle = attr.Title;
             Title = attr.Title;
             string[] tmp = attr.Action.Split('.');
             Controller = tmp[0];
             Action = tmp[1];
             CacheTitle = attr.CacheTitle;
+            OverwriteTitleOnExactMatch = attr.OverwriteOnExactMatch;
         }
 
         public BreadcrumbNode(string title, string action, string controller, object routeValues = null, BreadcrumbNode parent = null)
@@ -55,5 +60,6 @@ namespace SmartBreadcrumbs
 
         #endregion
 
+        public string GetOriginTitle() => _originTitle;
     }
 }

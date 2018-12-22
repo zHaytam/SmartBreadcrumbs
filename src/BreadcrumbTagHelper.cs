@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -56,8 +56,10 @@ namespace SmartBreadcrumbs
 
             if (node != null)
             {
-                if (node.CacheTitle && node.Title.StartsWith("ViewData."))
-                    node.Title = ExtractTitle(node.Title);
+                var fetchTitleFromViewData = node.CacheTitle && node.Title.StartsWith("ViewData.");
+                
+                if (fetchTitleFromViewData || node.OverwriteTitleOnExactMatch)
+                    node.Title = ExtractTitle(node.GetOriginTitle());
 
                 sb.Append($"<li{GetClass(_breadcrumbsManager.Options.ActiveLiClasses)}>{ExtractTitle(node.Title)}</li>");
 

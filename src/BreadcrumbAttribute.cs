@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace SmartBreadcrumbs
 {
@@ -24,6 +24,8 @@ namespace SmartBreadcrumbs
         public virtual string FromController { get; set; }
 
         public virtual bool CacheTitle { get; set; }
+
+        public bool OverwriteOnExactMatch { get; set; }
 
         public virtual bool Default => false;
 
