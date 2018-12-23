@@ -17,6 +17,10 @@
 
         public string SeparatorElement { get; set; }
 
+        public string LiTemplate { get; set; }
+        
+        public string ActiveLiTemplate { get; set; }
+
         public bool HasSeparatorElement => !string.IsNullOrEmpty(SeparatorElement);
 
         #endregion

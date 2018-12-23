@@ -59,7 +59,7 @@ namespace SmartBreadcrumbs
                 if (node.CacheTitle && node.Title.StartsWith("ViewData."))
                     node.Title = ExtractTitle(node.Title);
 
-                sb.Append($"<li{GetClass(_breadcrumbsManager.Options.ActiveLiClasses)}>{ExtractTitle(node.Title)}</li>");
+                sb.Insert(0, GetLi(node.Title, node.GetUrl(_urlHelper),true));
 
                 while (node.Parent != null)
                 {
@@ -71,7 +71,7 @@ namespace SmartBreadcrumbs
                         sb.Insert(0, _breadcrumbsManager.Options.SeparatorElement);
                     }
 
-                    sb.Insert(0, $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{node.GetUrl(_urlHelper)}\">{node.Title}</a></li>");
+                    sb.Insert(0, GetLi(node.Title, node.GetUrl(_urlHelper),false));
                 }
             }
 
@@ -84,7 +84,9 @@ namespace SmartBreadcrumbs
                     sb.Insert(0, _breadcrumbsManager.Options.SeparatorElement);
                 }
 
-                sb.Insert(0, $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{_breadcrumbsManager.DefaultNode.GetUrl(_urlHelper)}\">{_breadcrumbsManager.DefaultNode.Title}</a></li>");
+                sb.Insert(0, GetLi(_breadcrumbsManager.DefaultNode.Title, 
+                    _breadcrumbsManager.DefaultNode.GetUrl(_urlHelper), 
+                    false));
             }
 
             output.Content.AppendHtml(sb.ToString());
@@ -110,5 +112,20 @@ namespace SmartBreadcrumbs
             return $" class=\"{classes}\"";
         }
 
+        private string GetLi(string title, string link, bool isActive)
+        {
+            var normalTemplate = _breadcrumbsManager.Options.LiTemplate;
+            var activeTemplate = _breadcrumbsManager.Options.ActiveLiTemplate;
+
+            if (!isActive && string.IsNullOrEmpty(normalTemplate))
+                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{link}\">{title}</a></li>";
+
+            if (isActive && string.IsNullOrEmpty(activeTemplate))
+                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}>{title}</li>";
+
+            return isActive
+                ? string.Format(activeTemplate, title, link)
+                : string.Format(normalTemplate, title, link);
+        }
     }
 }
