@@ -53,7 +53,7 @@ namespace SmartBreadcrumbs
             return this;
         }
 
-        public string GetUrl(UrlHelper urlHelper)
+        public string GetUrl(IUrlHelper urlHelper)
         {
             return urlHelper.Action(Action, Controller, RouteValues);
         }
