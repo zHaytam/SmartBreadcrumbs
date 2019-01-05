@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -14,7 +15,7 @@ namespace SmartBreadcrumbs
         #region Fields
 
         private readonly BreadcrumbsManager _breadcrumbsManager;
-        private readonly UrlHelper _urlHelper;
+        private readonly IUrlHelper _urlHelper;
 
         #endregion
 
@@ -26,10 +27,10 @@ namespace SmartBreadcrumbs
 
         #endregion
 
-        public BreadcrumbTagHelper(BreadcrumbsManager breadcrumbsManager, IActionContextAccessor actionContextAccessor)
+        public BreadcrumbTagHelper(BreadcrumbsManager breadcrumbsManager, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContextAccessor)
         {
             _breadcrumbsManager = breadcrumbsManager;
-            _urlHelper = new UrlHelper(actionContextAccessor.ActionContext);
+            _urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
         }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
