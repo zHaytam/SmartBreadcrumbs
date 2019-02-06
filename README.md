@@ -31,12 +31,12 @@ You can also specify some options when initializing SmartBreadcrumbs:
 ```csharp
 services.UseBreadcrumbs(GetType().Assembly, options =>
 {
-	TagName = "nav";
-	TagClasses = "";
-	OlClasses = "breadcrumb";
-	LiClasses = "breadcrumb-item";
-	ActiveLiClasses = "breadcrumb-item active";
-	SeparatorElement = "<li class=\"separator\">/</li>";
+	options.TagName = "nav";
+	options.TagClasses = "";
+	options.OlClasses = "breadcrumb";
+	options.LiClasses = "breadcrumb-item";
+	options.ActiveLiClasses = "breadcrumb-item active";
+	options.SeparatorElement = "<li class=\"separator\">/</li>";
 });
 ```
 The SeperatorElement will be added after each node, use it when you're using a custom theme/template for example.

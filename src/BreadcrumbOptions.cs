@@ -38,11 +38,13 @@
 
         /// <summary>
         /// Example: &lt;li&gt;&lt;a href="{1}"&gt;{0}&lt;/a&gt;&lt;/li&gt;
+        /// <para>PS: IconClasses will have an index of 2.</para>
         /// </summary>
         public string LiTemplate { get; set; }
 
         /// <summary>
         /// Example: &lt;li class="active"&gt;&lt;a href="{1}"&gt;{0}&lt;/a&gt;&lt;/li&gt;
+        /// <para>PS: IconClasses will have an index of 2.</para>
         /// </summary>
         public string ActiveLiTemplate { get; set; }
 

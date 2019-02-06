@@ -12,6 +12,7 @@ namespace SmartBreadcrumbs
     [HtmlTargetElement("breadcrumb")]
     public class BreadcrumbTagHelper : TagHelper
     {
+
         #region Fields
 
         private readonly BreadcrumbsManager _breadcrumbsManager;
@@ -44,7 +45,7 @@ namespace SmartBreadcrumbs
             var node = ViewContext.ViewData["BreadcrumbNode"] as BreadcrumbNode ?? _breadcrumbsManager.GetNode(nodeKey);
 
             output.TagName = _breadcrumbsManager.Options.TagName;
-            
+
             // Tag Classes
             if (!string.IsNullOrEmpty(_breadcrumbsManager.Options.TagClasses))
             {
@@ -58,11 +59,11 @@ namespace SmartBreadcrumbs
             if (node != null)
             {
                 var fetchTitleFromViewData = node.CacheTitle && node.Title.StartsWith("ViewData.");
-                
+
                 if (fetchTitleFromViewData || node.OverwriteTitleOnExactMatch)
                     node.Title = ExtractTitle(node.GetOriginTitle());
 
-                sb.Insert(0, GetLi(node.Title, node.GetUrl(_urlHelper),true));
+                sb.Insert(0, GetLi(node, node.GetUrl(_urlHelper), true));
 
                 while (node.Parent != null)
                 {
@@ -74,7 +75,7 @@ namespace SmartBreadcrumbs
                         sb.Insert(0, _breadcrumbsManager.Options.SeparatorElement);
                     }
 
-                    sb.Insert(0, GetLi(node.Title, node.GetUrl(_urlHelper),false));
+                    sb.Insert(0, GetLi(node, node.GetUrl(_urlHelper), false));
                 }
             }
 
@@ -87,8 +88,8 @@ namespace SmartBreadcrumbs
                     sb.Insert(0, _breadcrumbsManager.Options.SeparatorElement);
                 }
 
-                sb.Insert(0, GetLi(_breadcrumbsManager.DefaultNode.Title, 
-                    _breadcrumbsManager.DefaultNode.GetUrl(_urlHelper), 
+                sb.Insert(0, GetLi(_breadcrumbsManager.DefaultNode,
+                    _breadcrumbsManager.DefaultNode.GetUrl(_urlHelper),
                     false));
             }
 
@@ -109,26 +110,26 @@ namespace SmartBreadcrumbs
 
         private string GetClass(string classes)
         {
-            if (string.IsNullOrEmpty(classes))
-                return "";
-
-            return $" class=\"{classes}\"";
+            return string.IsNullOrEmpty(classes) ? "" : $" class=\"{classes}\"";
         }
 
-        private string GetLi(string title, string link, bool isActive)
+        private string GetLi(BreadcrumbNode node, string link, bool isActive)
         {
             var normalTemplate = _breadcrumbsManager.Options.LiTemplate;
             var activeTemplate = _breadcrumbsManager.Options.ActiveLiTemplate;
 
             if (!isActive && string.IsNullOrEmpty(normalTemplate))
-                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{link}\">{title}</a></li>";
+                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{link}\">{node.Title}</a></li>";
 
             if (isActive && string.IsNullOrEmpty(activeTemplate))
-                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}>{title}</li>";
+                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}>{node.Title}</li>";
 
-            return isActive
-                ? string.Format(activeTemplate, title, link)
-                : string.Format(normalTemplate, title, link);
+            // Templates
+            string templateToUse = isActive ? activeTemplate : normalTemplate;
+            
+            // The IconClasses will get ignored if the template doesn't have their index.
+            return string.Format(templateToUse, node.Title, link, node.IconClasses);
         }
+
     }
 }

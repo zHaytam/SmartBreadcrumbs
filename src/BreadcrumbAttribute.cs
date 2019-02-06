@@ -32,7 +32,13 @@ namespace SmartBreadcrumbs
         /// <summary>
         /// Wheither to replace the node's title with what was found in ViewData.
         /// </summary>
-        public bool OverwriteOnExactMatch { get; set; }
+        public virtual bool OverwriteOnExactMatch { get; set; }
+
+        /// <summary>
+        /// Only usable when you're providing a LiTemplate and ActiveLiTemplate.
+        /// <para>Example: &lt;li&gt;&lt;a href=\"{1}\"&gt;&lt;i class=\"{2}\">&lt;/i&gt;{0}&lt;/a&gt;&lt;/li&gt;</para>
+        /// </summary>
+        public virtual string IconClasses { get; set; }
 
         public virtual bool Default => false;
 
