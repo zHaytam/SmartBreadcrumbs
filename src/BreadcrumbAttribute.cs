@@ -13,7 +13,8 @@ namespace SmartBreadcrumbs
         public virtual string Action { get; internal set; }
 
         /// <summary>
-        /// If FromController is empty and FromAction is just an {action} it will automaticly add the current controller
+        /// If FromController is empty and FromAction is just an {action} it will automaticly
+        /// add the current controller.
         /// You syntax {controller}.{action} or user FromController instead
         /// </summary>
         public virtual string FromAction { get; set; }
@@ -23,8 +24,14 @@ namespace SmartBreadcrumbs
         /// </summary>
         public virtual string FromController { get; set; }
 
+        /// <summary>
+        /// Wheither to cache ViewData titles (e.g. ViewData.Something)
+        /// </summary>
         public virtual bool CacheTitle { get; set; }
 
+        /// <summary>
+        /// Wheither to replace the node's title with what was found in ViewData.
+        /// </summary>
         public bool OverwriteOnExactMatch { get; set; }
 
         public virtual bool Default => false;
