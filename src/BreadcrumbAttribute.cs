@@ -40,8 +40,10 @@ namespace SmartBreadcrumbs
 
     public class DefaultBreadcrumbAttribute : BreadcrumbAttribute
     {
-        public DefaultBreadcrumbAttribute(string title) : base(title) { }
 
         public override bool Default => true;
+
+        public DefaultBreadcrumbAttribute(string title) : base(title) { }
+
     }
 }
