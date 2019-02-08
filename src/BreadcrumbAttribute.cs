@@ -27,20 +27,23 @@ namespace SmartBreadcrumbs
 
         public bool OverwriteOnExactMatch { get; set; }
 
+        public virtual object RouteValues { get; set; }
+
         public virtual bool Default => false;
 
         #endregion
 
-        public BreadcrumbAttribute(string title)
+        public BreadcrumbAttribute(string title, string areaName = null)
         {
             Title = title;
+            RouteValues = areaName != null ? new { area = areaName } : null;
         }
 
     }
 
     public class DefaultBreadcrumbAttribute : BreadcrumbAttribute
     {
-        public DefaultBreadcrumbAttribute(string title) : base(title) { }
+        public DefaultBreadcrumbAttribute(string title, string areaName = null) : base(title, areaName) { }
 
         public override bool Default => true;
     }

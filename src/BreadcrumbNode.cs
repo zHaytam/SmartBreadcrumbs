@@ -34,6 +34,7 @@ namespace SmartBreadcrumbs
             Action = tmp[1];
             CacheTitle = attr.CacheTitle;
             OverwriteTitleOnExactMatch = attr.OverwriteOnExactMatch;
+            RouteValues = attr.RouteValues;
         }
 
         public BreadcrumbNode(string title, string action, string controller, object routeValues = null, BreadcrumbNode parent = null)
