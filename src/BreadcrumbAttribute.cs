@@ -27,7 +27,7 @@ namespace SmartBreadcrumbs
 
         public bool OverwriteOnExactMatch { get; set; }
 
-        public virtual object RouteValues { get; set; }
+        public virtual string AreaName { get; set; }
 
         public virtual bool Default => false;
 
@@ -36,7 +36,7 @@ namespace SmartBreadcrumbs
         public BreadcrumbAttribute(string title, string areaName = null)
         {
             Title = title;
-            RouteValues = areaName != null ? new { area = areaName } : null;
+            AreaName = areaName;
         }
 
     }
