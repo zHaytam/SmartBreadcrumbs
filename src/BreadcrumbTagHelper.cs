@@ -105,7 +105,7 @@ namespace SmartBreadcrumbs
                 return title;
 
             string key = title.Substring(9);
-            return ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : key;
+            return ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : $"{key} Not Found";
         }
 
         private string GetClass(string classes)
