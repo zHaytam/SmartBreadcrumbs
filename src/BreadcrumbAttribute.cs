@@ -40,19 +40,24 @@ namespace SmartBreadcrumbs
         /// </summary>
         public virtual string IconClasses { get; set; }
 
+        public virtual string AreaName { get; set; }
+
         public virtual bool Default => false;
 
         #endregion
 
-        public BreadcrumbAttribute(string title)
+        public BreadcrumbAttribute(string title, string areaName = null)
         {
             Title = title;
+            AreaName = areaName;
         }
 
     }
 
     public class DefaultBreadcrumbAttribute : BreadcrumbAttribute
     {
+
+        public DefaultBreadcrumbAttribute(string title, string areaName = null) : base(title, areaName) { }
 
         public override bool Default => true;
 
