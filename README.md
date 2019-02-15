@@ -141,6 +141,10 @@ Initial release
 **1.0.3.3**
 - Fix IActionContextAccessor DI register (Thanks to askalione).
 
+**1.0.5**
+- Added AreaName support.
+- Added IconClasses support.
+
 ## Credits & License
 
 Credits: zHaytam  
