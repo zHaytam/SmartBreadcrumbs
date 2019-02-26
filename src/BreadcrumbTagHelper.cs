@@ -108,27 +108,30 @@ namespace SmartBreadcrumbs
             return ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : $"{key} Not Found";
         }
 
-        private string GetClass(string classes)
+        private static string GetClass(string classes)
         {
             return string.IsNullOrEmpty(classes) ? "" : $" class=\"{classes}\"";
         }
 
         private string GetLi(BreadcrumbNode node, string link, bool isActive)
         {
+            // In case the node's title is still ViewData.Something
+            string nodeTitle = ExtractTitle(node.Title);
+
             var normalTemplate = _breadcrumbsManager.Options.LiTemplate;
             var activeTemplate = _breadcrumbsManager.Options.ActiveLiTemplate;
 
             if (!isActive && string.IsNullOrEmpty(normalTemplate))
-                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{link}\">{node.Title}</a></li>";
+                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}><a href=\"{link}\">{nodeTitle}</a></li>";
 
             if (isActive && string.IsNullOrEmpty(activeTemplate))
-                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}>{node.Title}</li>";
+                return $"<li{GetClass(_breadcrumbsManager.Options.LiClasses)}>{nodeTitle}</li>";
 
             // Templates
             string templateToUse = isActive ? activeTemplate : normalTemplate;
             
             // The IconClasses will get ignored if the template doesn't have their index.
-            return string.Format(templateToUse, node.Title, link, node.IconClasses);
+            return string.Format(templateToUse, nodeTitle, link, node.IconClasses);
         }
 
     }
