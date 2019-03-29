@@ -37,7 +37,9 @@ namespace SmartBreadcrumbs.Extensions
             if (pagesIndex == -1)
                 throw new SmartBreadcrumbsException($"The full name {fullName} doesn't contain 'Pages'.");
 
-            return fullName.Substring(pagesIndex + 6).Replace('.', '/');
+            int startIndex = pagesIndex + 6;
+            int endIndex = fullName.EndsWith("Model") ? fullName.Length - 5 : fullName.Length;
+            return fullName.Substring(startIndex, endIndex - startIndex).Replace('.', '/');
         }
 
         public static string ExtractMvcKey(this Type controllerType, MethodInfo actionMethod)

@@ -75,6 +75,8 @@ namespace SmartBreadcrumbs.UnitTests
         [Theory]
         [InlineData(typeof(TestClassOne), "/SubFolder1/TestClassOne")]
         [InlineData(typeof(TestClassTwo), "/TestClassTwo")]
+        [InlineData(typeof(SomePage1Model), "/SomePage1")]
+        [InlineData(typeof(SomeModelPageModel), "/SomeModelPage")]
         public void ExtractRazorPageKey_ShouldReturnCorrectPath(Type type, string expectedPath)
         {
             Assert.Equal(expectedPath, type.ExtractRazorPageKey());
