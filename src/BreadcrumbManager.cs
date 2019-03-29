@@ -55,6 +55,8 @@ namespace SmartBreadcrumbs
             GenerateHierarchy(entries);
         }
 
+        public BreadcrumbNode GetNode(string key) => _nodes.ContainsKey(key) ? _nodes[key] : null;
+
         #endregion
 
         #region Private Methods
