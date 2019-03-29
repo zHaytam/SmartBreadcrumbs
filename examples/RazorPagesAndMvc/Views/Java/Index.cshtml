@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Java";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Java</h1>
+
+<ul>
+    <li>
+        <a asp-action="Index" asp-controller="EasyJava">Easy</a>
+        <ul>
+            <li>
+                <a asp-action="Post1" asp-controller="EasyJava">Post 1</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a asp-action="Index" asp-controller="AdvancedJava">Advanced</a>
+        <ul>
+            <li>
+                <a asp-action="Post1" asp-controller="AdvancedJava">Post 1</a>
+            </li>
+        </ul>
+    </li>
+</ul>

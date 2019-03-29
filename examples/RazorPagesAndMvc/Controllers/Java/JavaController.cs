@@ -3,6 +3,7 @@ using SmartBreadcrumbs.Attributes;
 
 namespace RazorPagesAndMvc.Controllers.Java
 {
+    [Route("Java")]
     public class JavaController : Controller
     {
 

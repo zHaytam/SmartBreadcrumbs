@@ -7,7 +7,56 @@
 <h1>Index</h1>
 
 <ul>
-    <li>Index</li>
+    <li>
+        Index
+        <ul>
+            <li>
+                <a asp-page="/CSharp/Index">C# - CSharp</a>
+                <ul>
+                    <li>
+                        <a asp-page="/CSharp/Easy/Index">Easy</a>
+                        <ul>
+                            <li>
+                                <a asp-page="/CSharp/Easy/Post1">Post 1</a>
+                            </li>
+                            <li>
+                                <a asp-page="/CSharp/Easy/Post2">Post 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-page="/CSharp/Advanced/Index">Advanced</a>
+                        <ul>
+                            <li>
+                                <a asp-page="/CSharp/Advanced/Post1">Post 1</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Java">Java</a>
+                <ul>
+                    <li>
+                        <a asp-action="Index" asp-controller="EasyJava">Easy</a>
+                        <ul>
+                            <li>
+                                <a asp-action="Post1" asp-controller="EasyJava">Post 1</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="AdvancedJava">Advanced</a>
+                        <ul>
+                            <li>
+                                <a asp-action="Post1" asp-controller="AdvancedJava">Post 1</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
     <li>
         <a asp-page="/About">About</a>
     </li>

@@ -104,8 +104,8 @@ namespace SmartBreadcrumbs
 
         private string GetNodeKey(IDictionary<string, string> routeValues)
         {
-            return routeValues.ContainsKey("page") ? 
-                routeValues["page"] : 
+            return routeValues.ContainsKey("page") && !string.IsNullOrWhiteSpace(routeValues["page"]) ?
+                routeValues["page"] :
                 $"{routeValues["controller"]}.{routeValues["action"]}";
         }
 

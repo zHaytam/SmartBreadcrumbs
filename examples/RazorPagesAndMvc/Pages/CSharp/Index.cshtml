@@ -1,8 +1,29 @@
 ﻿@page
 @model RazorPagesAndMvc.Pages.CSharp.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "C# - CSharp";
 }
 
-<h1>Index</h1>
+<h1>C# - CSharp</h1>
 
+<ul>
+    <li>
+        <a asp-page="/CSharp/Easy/Index">Easy</a>
+        <ul>
+            <li>
+                <a asp-page="/CSharp/Easy/Post1">Post 1</a>
+            </li>
+            <li>
+                <a asp-page="/CSharp/Easy/Post2">Post 2</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a asp-page="/CSharp/Advanced/Index">Advanced</a>
+        <ul>
+            <li>
+                <a asp-page="/CSharp/Advanced/Post1">Post 1</a>
+            </li>
+        </ul>
+    </li>
+</ul>
