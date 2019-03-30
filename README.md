@@ -18,7 +18,7 @@ Razor Pages then came out and became "more popular", so I rewrote the whole code
 
 ## Documentation & Example
 
- - Documentation: A list of all the possible things you can do with SmartBreadcrumbs.
+ - [Wiki](https://github.com/zHaytam/SmartBreadcrumbs/wiki): A list of all the possible things you can do with SmartBreadcrumbs.
  - [RazorPagesAndMvc](https://github.com/zHaytam/SmartBreadcrumbs/tree/master/examples/RazorPagesAndMvc): An example project containing both MVC and Razor Pages pages. Check it out to see how SmartBreadcrumbs works.
 
 ## Usage
