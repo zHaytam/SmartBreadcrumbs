@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorPagesAndMvc", "..\exam
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E7CAB1AA-9307-4BB5-80C4-4B4B22B7590E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBreadcrumbs.UnitTests", "..\tests\SmartBreadcrumbs.UnitTests\SmartBreadcrumbs.UnitTests.csproj", "{02ED749A-A3F4-4850-BF4E-10B9ED663933}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartBreadcrumbs.UnitTests", "..\tests\SmartBreadcrumbs.UnitTests\SmartBreadcrumbs.UnitTests.csproj", "{02ED749A-A3F4-4850-BF4E-10B9ED663933}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4687A2D8-234A-4E5C-860B-78F05C9B8A33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{6F1341AF-8576-4389-A9C5-AAD9F77192C2} = {4687A2D8-234A-4E5C-860B-78F05C9B8A33}
 		{B3F40D13-7404-4860-BC53-8BD945F73420} = {E77107FF-CD37-4890-B905-FB817D3F18C1}
 		{02ED749A-A3F4-4850-BF4E-10B9ED663933} = {E7CAB1AA-9307-4BB5-80C4-4B4B22B7590E}
 	EndGlobalSection
