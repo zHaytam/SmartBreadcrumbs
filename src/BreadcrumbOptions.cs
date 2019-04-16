@@ -50,6 +50,11 @@
 
         public bool HasSeparatorElement => !string.IsNullOrEmpty(SeparatorElement);
 
+        /// <summary>
+        /// The action to call when only a controller is known, e.g. nameof(HomeController.Index).
+        /// </summary>
+        public string DefaultAction { get; }
+
         #endregion
 
         public BreadcrumbOptions()
@@ -58,9 +63,10 @@
             OlClasses = "breadcrumb";
             LiClasses = "breadcrumb-item";
             ActiveLiClasses = "breadcrumb-item active";
+            DefaultAction = "Index";
         }
 
-        public BreadcrumbOptions(string tagName, string olClasses, string liClasses, string activeLiClasses, string tagClasses = null, string separatorElement = null)
+        public BreadcrumbOptions(string tagName, string olClasses, string liClasses, string activeLiClasses, string tagClasses = null, string separatorElement = null, string defaultAction = "Index")
         {
             TagName = tagName;
             OlClasses = olClasses;
@@ -68,6 +74,7 @@
             ActiveLiClasses = activeLiClasses;
             TagClasses = tagClasses;
             SeparatorElement = separatorElement;
+            DefaultAction = defaultAction;
         }
 
     }

@@ -84,6 +84,26 @@ namespace SmartBreadcrumbs.UnitTests
 
         #endregion
 
+        #region ExtractMvcControllerKey
+
+        [Fact]
+        public void ExtractMvcControllerKey_ShouldThrowArgumentNullException_WhenControllerTypeIsNull()
+        {
+            Type type = null;
+            Assert.Throws<ArgumentNullException>(() => type.ExtractMvcControllerKey());
+        }
+
+        [Theory]
+        [InlineData(typeof(TestController), "Test")]
+        [InlineData(typeof(TestTwoController), "TestTwo")]
+        public void ExtractMvcControllerKey_ShouldReturnCorrectValue(Type fromController, string expectedKey)
+        {
+            var defaultAction = new BreadcrumbOptions().DefaultAction;
+            Assert.Equal($"{expectedKey}.{defaultAction}", fromController.ExtractMvcControllerKey());
+        }
+
+        #endregion
+
         #region ExtractMvcKey
 
         [Fact]
