@@ -53,5 +53,12 @@ namespace SmartBreadcrumbs.Extensions
             return $"{controllerType.Name.Replace("Controller", "")}.{actionMethod.Name}";
         }
 
+        public static string ExtractMvcControllerKey(this Type controllerType)
+        {
+            if (controllerType == null)
+                throw new ArgumentNullException(nameof(controllerType));
+
+            return $"{controllerType.Name.Replace("Controller", "")}.{BreadcrumbManager.Options.DefaultAction}";
+        }
     }
 }

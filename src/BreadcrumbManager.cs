@@ -19,7 +19,7 @@ namespace SmartBreadcrumbs
 
         #region Properties
 
-        public BreadcrumbOptions Options { get; }
+        public static BreadcrumbOptions Options { get; private set; } = new BreadcrumbOptions();
 
         public BreadcrumbNode DefaultNode { get; internal set; }
 
@@ -43,6 +43,14 @@ namespace SmartBreadcrumbs
                 if (HasBreadcrumb(type, out BreadcrumbNodeEntry extractedEntry))
                 {
                     entries.Add(extractedEntry.Key, extractedEntry);
+                    //No need to check the other IF and FOREACH when HasBreadcrumb returns true.
+                    continue;
+                }
+
+                // Controllers
+                if (TryGetBreadcrumbNodeEntry(type, out BreadcrumbNodeEntry controllerEntry))
+                {
+                    entries.Add(controllerEntry.Key, controllerEntry);
                 }
 
                 // Controller actions
@@ -95,6 +103,10 @@ namespace SmartBreadcrumbs
             if (attr == null)
                 return false;
 
+            //if no title is given, then fallback to type name (razor page name).
+            if (string.IsNullOrWhiteSpace(attr.Title))
+                attr.Title = type.Name.Replace("Page", string.Empty);
+
             string path = type.ExtractRazorPageKey();
             entry = new BreadcrumbNodeEntry
             {
@@ -106,8 +118,31 @@ namespace SmartBreadcrumbs
 
             return true;
         }
+        private bool TryGetBreadcrumbNodeEntry(Type type, out BreadcrumbNodeEntry entry)
+        {
+            entry = null;
+            if (!type.IsController()) return false;
 
-        private static IEnumerable<BreadcrumbNodeEntry> TryExtractingEntries(Type type)
+            var attr = type.GetCustomAttribute<BreadcrumbAttribute>();
+            if (attr == null)
+                return false;
+
+            //if no title is given, then fallback to controller name.
+            if (string.IsNullOrWhiteSpace(attr.Title))
+                attr.Title = type.Name.Replace("Controller", string.Empty);
+
+            string key = type.ExtractMvcControllerKey();
+            entry = new BreadcrumbNodeEntry
+            {
+                Key = key,
+                Node = new MvcControllerBreadcrumbNode(type.Name.Replace("Controller", string.Empty), attr),
+                FromKey = attr.ExtractFromKey(type),
+                Default = attr.Default
+            };
+
+            return true;
+        }
+        private IEnumerable<BreadcrumbNodeEntry> TryExtractingEntries(Type type)
         {
             if (!type.IsController())
                 yield break;
@@ -121,6 +156,16 @@ namespace SmartBreadcrumbs
                 if (attr == null)
                     continue;
 
+                //if no fromController and no fromAction is given and we are not handling the defaultAction, infer fromController/Action from type.
+                if (attr.FromController == null && string.IsNullOrWhiteSpace(attr.FromAction) && Options.DefaultAction != method.Name)
+                {
+                    attr.FromAction = Options.DefaultAction;
+                }
+
+                //if no title is given, then fallback to method name.
+                if (string.IsNullOrWhiteSpace(attr.Title))
+                    attr.Title = method.Name;
+
                 string key = type.ExtractMvcKey(method);
                 yield return new BreadcrumbNodeEntry
                 {
@@ -131,7 +176,7 @@ namespace SmartBreadcrumbs
                 };
             }
         }
-        
+
         #endregion
 
     }

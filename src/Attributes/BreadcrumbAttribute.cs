@@ -4,6 +4,7 @@ using SmartBreadcrumbs.Extensions;
 
 namespace SmartBreadcrumbs.Attributes
 {
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class BreadcrumbAttribute : Attribute
     {
 
@@ -67,6 +68,13 @@ namespace SmartBreadcrumbs.Attributes
 
         public virtual string ExtractFromKey(Type type)
         {
+            //Check if type is a controller without a FromAction
+            if (type.IsController() && string.IsNullOrWhiteSpace(FromAction) && FromController != null)
+            {
+                //should only come here if type is a controller and attribute is placed at controller class level
+                return FromController.ExtractMvcControllerKey();
+            }
+
             if (!string.IsNullOrWhiteSpace(FromAction))
             {
                 var fromControllerType = FromController;

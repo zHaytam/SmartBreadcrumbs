@@ -45,15 +45,15 @@ namespace SmartBreadcrumbs
             string nodeKey = GetNodeKey(ViewContext.ActionDescriptor.RouteValues);
             var node = ViewContext.ViewData["BreadcrumbNode"] as BreadcrumbNode ?? _breadcrumbManager.GetNode(nodeKey);
 
-            output.TagName = _breadcrumbManager.Options.TagName;
+            output.TagName = BreadcrumbManager.Options.TagName;
 
             // Tag Classes
-            if (!string.IsNullOrEmpty(_breadcrumbManager.Options.TagClasses))
+            if (!string.IsNullOrEmpty(BreadcrumbManager.Options.TagClasses))
             {
-                output.Attributes.Add("class", _breadcrumbManager.Options.TagClasses);
+                output.Attributes.Add("class", BreadcrumbManager.Options.TagClasses);
             }
 
-            output.Content.AppendHtml($"<ol class=\"{_breadcrumbManager.Options.OlClasses}\">");
+            output.Content.AppendHtml($"<ol class=\"{BreadcrumbManager.Options.OlClasses}\">");
 
             var sb = new StringBuilder();
 
@@ -70,9 +70,9 @@ namespace SmartBreadcrumbs
                     node = node.Parent;
 
                     // Separator
-                    if (_breadcrumbManager.Options.HasSeparatorElement)
+                    if (BreadcrumbManager.Options.HasSeparatorElement)
                     {
-                        sb.Insert(0, _breadcrumbManager.Options.SeparatorElement);
+                        sb.Insert(0, BreadcrumbManager.Options.SeparatorElement);
                     }
 
                     sb.Insert(0, GetLi(node, node.GetUrl(_urlHelper), false));
@@ -83,9 +83,9 @@ namespace SmartBreadcrumbs
             if (node != _breadcrumbManager.DefaultNode)
             {
                 // Separator
-                if (_breadcrumbManager.Options.HasSeparatorElement)
+                if (BreadcrumbManager.Options.HasSeparatorElement)
                 {
-                    sb.Insert(0, _breadcrumbManager.Options.SeparatorElement);
+                    sb.Insert(0, BreadcrumbManager.Options.SeparatorElement);
                 }
 
                 sb.Insert(0, GetLi(_breadcrumbManager.DefaultNode,
@@ -104,9 +104,12 @@ namespace SmartBreadcrumbs
 
         private string GetNodeKey(IDictionary<string, string> routeValues)
         {
-            return routeValues.ContainsKey("page") && !string.IsNullOrWhiteSpace(routeValues["page"]) ?
-                routeValues["page"] :
-                $"{routeValues["controller"]}.{routeValues["action"]}";
+            if (routeValues.ContainsKey("page") && !string.IsNullOrWhiteSpace(routeValues["page"]))
+                return routeValues["page"];
+            else if (routeValues.ContainsKey("controller") && !routeValues.ContainsKey("action"))
+                return $"{routeValues["controller"]}";
+
+            return $"{routeValues["controller"]}.{routeValues["action"]}";
         }
 
         private string ExtractTitle(string title)
@@ -128,14 +131,14 @@ namespace SmartBreadcrumbs
             // In case the node's title is still ViewData.Something
             string nodeTitle = ExtractTitle(node.Title);
 
-            var normalTemplate = _breadcrumbManager.Options.LiTemplate;
-            var activeTemplate = _breadcrumbManager.Options.ActiveLiTemplate;
+            var normalTemplate = BreadcrumbManager.Options.LiTemplate;
+            var activeTemplate = BreadcrumbManager.Options.ActiveLiTemplate;
 
             if (!isActive && string.IsNullOrEmpty(normalTemplate))
-                return $"<li{GetClass(_breadcrumbManager.Options.LiClasses)}><a href=\"{link}\">{nodeTitle}</a></li>";
+                return $"<li{GetClass(BreadcrumbManager.Options.LiClasses)}><a href=\"{link}\">{nodeTitle}</a></li>";
 
             if (isActive && string.IsNullOrEmpty(activeTemplate))
-                return $"<li{GetClass(_breadcrumbManager.Options.LiClasses)}>{nodeTitle}</li>";
+                return $"<li{GetClass(BreadcrumbManager.Options.LiClasses)}>{nodeTitle}</li>";
 
             // Templates
             string templateToUse = isActive ? activeTemplate : normalTemplate;
