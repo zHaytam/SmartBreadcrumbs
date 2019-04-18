@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.Extensions;
 using SmartBreadcrumbs.Nodes;
@@ -167,13 +168,35 @@ namespace SmartBreadcrumbs
                     attr.Title = method.Name;
 
                 string key = type.ExtractMvcKey(method);
-                yield return new BreadcrumbNodeEntry
+                //Get all HttpXXX attributes as strings
+                IEnumerable<string> httpMethods = method.ExtractHttpMethodAttributes();
+                
+                //this prevents duplication if a identically named action exists which only differs in httpmethod
+                if (httpMethods.Where(m => m != HttpMethods.Get).Count() == 0)
                 {
-                    Key = key,
-                    Node = new MvcBreadcrumbNode(method.Name, type.Name.Replace("Controller", ""), attr),
-                    FromKey = attr.ExtractFromKey(type),
-                    Default = attr.Default
-                };
+                    yield return new BreadcrumbNodeEntry
+                    {
+                        Key = $"{key}",
+                        Node = new MvcBreadcrumbNode(method.Name, type.Name.Replace("Controller", ""), attr),
+                        FromKey = attr.ExtractFromKey(type),
+                        Default = attr.Default
+                    };
+                }
+                else
+                {
+                    //skip the GET as this is considered default
+                    foreach (var httpMethod in httpMethods.Where(m => m != HttpMethods.Get))
+                    {
+                        yield return new BreadcrumbNodeEntry
+                        {
+                            //foreach httpmethod besides GET append httpmethod as #method. e.g. Index#POST
+                            Key = $"{key}#{httpMethod}",
+                            Node = new MvcBreadcrumbNode(method.Name, type.Name.Replace("Controller", ""), attr),
+                            FromKey = attr.ExtractFromKey(type),
+                            Default = attr.Default
+                        };
+                    }
+                }                
             }
         }
 

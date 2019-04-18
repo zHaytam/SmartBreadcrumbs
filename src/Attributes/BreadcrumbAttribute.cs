@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using SmartBreadcrumbs.Extensions;
 
@@ -91,7 +92,9 @@ namespace SmartBreadcrumbs.Attributes
                 if (!fromControllerType.IsController())
                     throw new SmartBreadcrumbsException($"'{fromControllerType.Name}' is used in FromController but isn't a Controller.");
 
-                var actionMethod = fromControllerType.GetMethod(FromAction, BindingFlags.Instance | BindingFlags.Public);
+                var actionMethod = fromControllerType.GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                    .FirstOrDefault(m=>m.Name == FromAction); //to prevent AmbiguousMatchException
+
                 if (actionMethod == null || actionMethod.ReturnType.IsAction() == false)
                     throw new SmartBreadcrumbsException($"{fromControllerType.Name} doesn't contain a valid action named {FromAction}.");
 
