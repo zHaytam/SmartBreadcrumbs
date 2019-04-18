@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace SmartBreadcrumbs.Extensions
 {
@@ -26,6 +29,11 @@ namespace SmartBreadcrumbs.Extensions
 
         public static bool IsAction(this Type type)
             => type != null && (ActionResultType.IsAssignableFrom(type) || ActionResultTaskType.IsAssignableFrom(type));
+
+        public static IEnumerable<string> ExtractHttpMethodAttributes(this MethodInfo actionMethod)
+            => actionMethod.GetCustomAttributes<HttpMethodAttribute>(true)
+                .SelectMany(m => m.HttpMethods)
+                .Distinct();
 
         public static string ExtractRazorPageKey(this Type pageType)
         {
