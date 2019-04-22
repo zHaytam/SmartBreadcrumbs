@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -109,6 +110,10 @@ namespace SmartBreadcrumbs
             else if (routeValues.ContainsKey("controller") && !routeValues.ContainsKey("action"))
                 return $"{routeValues["controller"]}";
 
+            if (!HttpMethods.IsGet(ViewContext.HttpContext.Request.Method))
+            {
+                return $"{routeValues["controller"]}.{routeValues["action"]}#{ViewContext.HttpContext.Request.Method}";
+            }
             return $"{routeValues["controller"]}.{routeValues["action"]}";
         }
 
