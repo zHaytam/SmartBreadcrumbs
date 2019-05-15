@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.Extensions;
 using SmartBreadcrumbs.Nodes;
@@ -19,7 +20,7 @@ namespace SmartBreadcrumbs
 
         #region Properties
 
-        public BreadcrumbOptions Options { get; }
+        public static BreadcrumbOptions Options { get; private set; } = new BreadcrumbOptions();
 
         public BreadcrumbNode DefaultNode { get; internal set; }
 
@@ -43,6 +44,14 @@ namespace SmartBreadcrumbs
                 if (HasBreadcrumb(type, out BreadcrumbNodeEntry extractedEntry))
                 {
                     entries.Add(extractedEntry.Key, extractedEntry);
+                    //No need to check the other IF and FOREACH when HasBreadcrumb returns true.
+                    continue;
+                }
+
+                // Controllers
+                if (TryGetBreadcrumbNodeEntry(type, out BreadcrumbNodeEntry controllerEntry))
+                {
+                    entries.Add(controllerEntry.Key, controllerEntry);
                 }
 
                 // Controller actions
@@ -95,6 +104,10 @@ namespace SmartBreadcrumbs
             if (attr == null)
                 return false;
 
+            //if no title is given, then fallback to type name (razor page name).
+            if (string.IsNullOrWhiteSpace(attr.Title))
+                attr.Title = type.Name.Replace("Page", string.Empty);
+
             string path = type.ExtractRazorPageKey();
             entry = new BreadcrumbNodeEntry
             {
@@ -106,8 +119,31 @@ namespace SmartBreadcrumbs
 
             return true;
         }
+        private bool TryGetBreadcrumbNodeEntry(Type type, out BreadcrumbNodeEntry entry)
+        {
+            entry = null;
+            if (!type.IsController()) return false;
 
-        private static IEnumerable<BreadcrumbNodeEntry> TryExtractingEntries(Type type)
+            var attr = type.GetCustomAttribute<BreadcrumbAttribute>();
+            if (attr == null)
+                return false;
+
+            //if no title is given, then fallback to controller name.
+            if (string.IsNullOrWhiteSpace(attr.Title))
+                attr.Title = type.Name.Replace("Controller", string.Empty);
+
+            string key = type.ExtractMvcControllerKey();
+            entry = new BreadcrumbNodeEntry
+            {
+                Key = key,
+                Node = new MvcControllerBreadcrumbNode(type.Name.Replace("Controller", string.Empty), attr),
+                FromKey = attr.ExtractFromKey(type),
+                Default = attr.Default
+            };
+
+            return true;
+        }
+        private IEnumerable<BreadcrumbNodeEntry> TryExtractingEntries(Type type)
         {
             if (!type.IsController())
                 yield break;
@@ -121,17 +157,49 @@ namespace SmartBreadcrumbs
                 if (attr == null)
                     continue;
 
-                string key = type.ExtractMvcKey(method);
-                yield return new BreadcrumbNodeEntry
+                //if no fromController and no fromAction is given and we are not handling the defaultAction, infer fromController/Action from type.
+                if (attr.FromController == null && string.IsNullOrWhiteSpace(attr.FromAction) && Options.DefaultAction != method.Name)
                 {
-                    Key = key,
-                    Node = new MvcBreadcrumbNode(method.Name, type.Name.Replace("Controller", ""), attr),
-                    FromKey = attr.ExtractFromKey(type),
-                    Default = attr.Default
-                };
+                    attr.FromAction = Options.DefaultAction;
+                }
+
+                //if no title is given, then fallback to method name.
+                if (string.IsNullOrWhiteSpace(attr.Title))
+                    attr.Title = method.Name;
+
+                string key = type.ExtractMvcKey(method);
+                //Get all HttpXXX attributes as strings
+                IEnumerable<string> httpMethods = method.ExtractHttpMethodAttributes();
+                
+                //this prevents duplication if a identically named action exists which only differs in httpmethod
+                if (httpMethods.Where(m => m != HttpMethods.Get).Count() == 0)
+                {
+                    yield return new BreadcrumbNodeEntry
+                    {
+                        Key = $"{key}",
+                        Node = new MvcBreadcrumbNode(method.Name, type.Name.Replace("Controller", ""), attr),
+                        FromKey = attr.ExtractFromKey(type),
+                        Default = attr.Default
+                    };
+                }
+                else
+                {
+                    //skip the GET as this is considered default
+                    foreach (var httpMethod in httpMethods.Where(m => m != HttpMethods.Get))
+                    {
+                        yield return new BreadcrumbNodeEntry
+                        {
+                            //foreach httpmethod besides GET append httpmethod as #method. e.g. Index#POST
+                            Key = $"{key}#{httpMethod}",
+                            Node = new MvcBreadcrumbNode(method.Name, type.Name.Replace("Controller", ""), attr),
+                            FromKey = attr.ExtractFromKey(type),
+                            Default = attr.Default
+                        };
+                    }
+                }                
             }
         }
-        
+
         #endregion
 
     }
