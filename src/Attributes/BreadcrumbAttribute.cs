@@ -4,6 +4,7 @@ using SmartBreadcrumbs.Extensions;
 
 namespace SmartBreadcrumbs.Attributes
 {
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class BreadcrumbAttribute : Attribute
     {
 
