@@ -73,22 +73,26 @@ namespace SmartBreadcrumbs
         private void GenerateHierarchy(Dictionary<string, BreadcrumbNodeEntry> entries)
         {
             // Mandatory single default entry
-            BreadcrumbNodeEntry defaultEntry = entries.Values.Single(e => e.Default);
-            DefaultNode = defaultEntry.Node;
-            _nodes.Add(defaultEntry.Key, DefaultNode);
+            string defaultNodeKey = null;
+            if (!Options.DontLookForDefaultNode)
+            {
+                var defaultEntry = entries.Values.Single(e => e.Default);
+                DefaultNode = defaultEntry.Node;
+                defaultNodeKey = defaultEntry.Key;
+                _nodes.Add(defaultNodeKey, DefaultNode);
+            }
 
             foreach (var entry in entries.Values)
             {
                 if (entry.Default)
                     continue;
 
-                var fromKey = entry.FromKey ?? defaultEntry.Key;
-                if (!entries.ContainsKey(fromKey))
+                var fromKey = entry.FromKey ?? defaultNodeKey;
+                if (fromKey != null && !entries.ContainsKey(fromKey))
                     throw new SmartBreadcrumbsException($"No node exists that has a '{fromKey}' as a key.\n" +
                                                         $"Make sure that razor page or controller action has a BreadcrumbAttribute.");
 
-                var fromEntry = entries[fromKey];
-                entry.Node.Parent = fromEntry.Node;
+                entry.Node.Parent = fromKey != null ? entries[fromKey].Node : null;
                 _nodes.Add(entry.Key, entry.Node);
             }
         }

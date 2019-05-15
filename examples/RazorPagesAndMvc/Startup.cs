@@ -35,7 +35,11 @@ namespace RazorPagesAndMvc
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddBreadcrumbs(GetType().Assembly);
+            services.AddBreadcrumbs(GetType().Assembly, options =>
+            {
+                // Testing
+                options.DontLookForDefaultNode = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

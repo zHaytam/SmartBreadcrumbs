@@ -48,6 +48,13 @@
         /// </summary>
         public string ActiveLiTemplate { get; set; }
 
+        /// <summary>
+        /// Set to true if you don't want to have a default node in your project.
+        /// This means that you will need to handle the first node that the user will see.
+        /// <para>Use this with caution.</para>
+        /// </summary>
+        public bool DontLookForDefaultNode { get; set; }
+
         public bool HasSeparatorElement => !string.IsNullOrEmpty(SeparatorElement);
 
         /// <summary>

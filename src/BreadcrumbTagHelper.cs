@@ -81,7 +81,7 @@ namespace SmartBreadcrumbs
             }
 
             // If the node was custom and it had no defaultnode
-            if (node != _breadcrumbManager.DefaultNode)
+            if (!BreadcrumbManager.Options.DontLookForDefaultNode && node != _breadcrumbManager.DefaultNode)
             {
                 // Separator
                 if (BreadcrumbManager.Options.HasSeparatorElement)
@@ -111,9 +111,8 @@ namespace SmartBreadcrumbs
                 return $"{routeValues["controller"]}";
 
             if (!HttpMethods.IsGet(ViewContext.HttpContext.Request.Method))
-            {
                 return $"{routeValues["controller"]}.{routeValues["action"]}#{ViewContext.HttpContext.Request.Method}";
-            }
+
             return $"{routeValues["controller"]}.{routeValues["action"]}";
         }
 
