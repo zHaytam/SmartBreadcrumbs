@@ -142,7 +142,7 @@ namespace SmartBreadcrumbs
                 return $"<li{GetClass(BreadcrumbManager.Options.LiClasses)}><a href=\"{link}\">{nodeTitle}</a></li>";
 
             if (isActive && string.IsNullOrEmpty(activeTemplate))
-                return $"<li{GetClass(BreadcrumbManager.Options.LiClasses)}>{nodeTitle}</li>";
+                return $"<li{GetClass(BreadcrumbManager.Options.ActiveLiClasses)}>{nodeTitle}</li>";
 
             // Templates
             string templateToUse = isActive ? activeTemplate : normalTemplate;
