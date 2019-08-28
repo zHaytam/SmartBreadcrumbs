@@ -50,11 +50,12 @@ You can specify options when you initialize SmartBreadcrumbs:
 ```cs
 services.AddBreadcrumbs(GetType().Assembly, options =>
 {
-	options.TagName = "nav";
-	options.TagClasses = "";
-	options.OlClasses = "breadcrumb";
-	options.LiClasses = "breadcrumb-item";
-	options.ActiveLiClasses = "breadcrumb-item active";
+	options.ParentTagName = "nav";
+	options.ParentTagClasses = "";
+	options.ListTagName = "ul";
+	options.ListTagClasses = "breadcrumb";
+	options.ListItemClasses = "breadcrumb-item";
+	options.ActiveListItemClasses = "breadcrumb-item active";
 	options.SeparatorElement = "<li class=\"separator\">/</li>";
 });
 ```
