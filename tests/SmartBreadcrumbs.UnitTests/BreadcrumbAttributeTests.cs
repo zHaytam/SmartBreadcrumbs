@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
 using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.UnitTests.Pages;
 using SmartBreadcrumbs.UnitTests.Pages.SubFolder1;
