@@ -48,6 +48,11 @@ namespace SmartBreadcrumbs.UnitTests
         [InlineData(typeof(Action), false)]
         [InlineData(typeof(IActionResult), true)]
         [InlineData(typeof(Task<IActionResult>), true)]
+        [InlineData(typeof(Task<ActionResult>), true)]
+        [InlineData(typeof(Task<JsonResult>), true)]
+        [InlineData(typeof(Task<FileResult>), true)]
+        [InlineData(typeof(Task<OkResult>), true)]
+        [InlineData(typeof(Task<RedirectResult>), true)]
         public void IsAction_ShouldReturnCorrectValue(Type type, bool expected)
         {
             Assert.Equal(expected, type.IsAction());

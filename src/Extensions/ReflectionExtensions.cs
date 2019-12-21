@@ -17,8 +17,8 @@ namespace SmartBreadcrumbs.Extensions
         private static readonly Type PageModelType = typeof(PageModel);
         private static readonly Type ControllerType = typeof(Controller);
         private static readonly Type ActionResultType = typeof(IActionResult);
-        private static readonly Type ActionResultTaskType = typeof(Task<IActionResult>);
-
+        private static readonly Type GenericTaskType = typeof(Task<>);
+        
         #endregion
 
         public static bool IsController(this Type type)
@@ -28,7 +28,7 @@ namespace SmartBreadcrumbs.Extensions
             => type != null && PageModelType.IsAssignableFrom(type);
 
         public static bool IsAction(this Type type)
-            => type != null && (ActionResultType.IsAssignableFrom(type) || ActionResultTaskType.IsAssignableFrom(type));
+            => type != null && (ActionResultType.IsAssignableFrom(type) || IsActionTypeGenericTaskOfIActionResult(type));
 
         public static IEnumerable<string> ExtractHttpMethodAttributes(this MethodInfo actionMethod)
             => actionMethod.GetCustomAttributes<HttpMethodAttribute>(true)
@@ -67,6 +67,17 @@ namespace SmartBreadcrumbs.Extensions
                 throw new ArgumentNullException(nameof(controllerType));
 
             return $"{controllerType.Name.Replace("Controller", "")}.{BreadcrumbManager.Options.DefaultAction}";
+        }
+
+        private static bool IsActionTypeGenericTaskOfIActionResult(Type type)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == GenericTaskType)
+            {
+                Type genericType = type.GetGenericArguments()[0];
+                return typeof(IActionResult).IsAssignableFrom(genericType);
+            }
+
+            return false;
         }
     }
 }
