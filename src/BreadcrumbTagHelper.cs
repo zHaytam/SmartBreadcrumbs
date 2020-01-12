@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace SmartBreadcrumbs
         #region Fields
 
         private readonly BreadcrumbManager _breadcrumbManager;
+        private readonly HtmlEncoder _htmlEncoder;
         private readonly IUrlHelper _urlHelper;
 
         #endregion
@@ -31,9 +33,11 @@ namespace SmartBreadcrumbs
 
         #endregion
 
-        public BreadcrumbTagHelper(BreadcrumbManager breadcrumbManager, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContextAccessor)
+        public BreadcrumbTagHelper(BreadcrumbManager breadcrumbManager, IUrlHelperFactory urlHelperFactory,
+            IActionContextAccessor actionContextAccessor, HtmlEncoder htmlEncoder)
         {
             _breadcrumbManager = breadcrumbManager;
+            _htmlEncoder = htmlEncoder;
             _urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
         }
 
@@ -119,10 +123,11 @@ namespace SmartBreadcrumbs
         private string ExtractTitle(string title)
         {
             if (!title.StartsWith("ViewData."))
-                return title;
+                return _htmlEncoder.Encode(title);
 
             string key = title.Substring(9);
-            return ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : $"{key} Not Found";
+            title = ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : $"{key} Not Found";
+            return _htmlEncoder.Encode(title);
         }
 
         private static string GetClass(string classes)
