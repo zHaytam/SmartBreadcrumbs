@@ -16,7 +16,6 @@ namespace SmartBreadcrumbs
     [HtmlTargetElement("breadcrumb")]
     public class BreadcrumbTagHelper : TagHelper
     {
-
         #region Fields
 
         private readonly BreadcrumbManager _breadcrumbManager;
@@ -50,15 +49,20 @@ namespace SmartBreadcrumbs
             string nodeKey = GetNodeKey(ViewContext.ActionDescriptor.RouteValues);
             var node = ViewContext.ViewData["BreadcrumbNode"] as BreadcrumbNode ?? _breadcrumbManager.GetNode(nodeKey);
 
-            output.TagName = BreadcrumbManager.Options.TagName;
+            output.TagName = BreadcrumbManager.Options.ParentTagName;
 
             // Tag Classes
-            if (!string.IsNullOrEmpty(BreadcrumbManager.Options.TagClasses))
+            if (!string.IsNullOrEmpty(BreadcrumbManager.Options.ParentTagClasses))
             {
-                output.Attributes.Add("class", BreadcrumbManager.Options.TagClasses);
+                output.Attributes.Add("class", BreadcrumbManager.Options.ParentTagClasses);
             }
 
-            output.Content.AppendHtml($"<ol class=\"{BreadcrumbManager.Options.OlClasses}\">");
+            if (string.IsNullOrEmpty(BreadcrumbManager.Options.ListTagClasses))
+            {
+                output.Content.AppendHtml($"<{BreadcrumbManager.Options.ListTagName}>");
+            } else {
+                output.Content.AppendHtml($"<{BreadcrumbManager.Options.ListTagName} class=\"{BreadcrumbManager.Options.ListTagClasses}\">");
+            }
 
             var sb = new StringBuilder();
 
@@ -100,7 +104,7 @@ namespace SmartBreadcrumbs
 
             output.Content.AppendHtml(sb.ToString());
             output.Content.AppendHtml(child);
-            output.Content.AppendHtml("</ol>");
+            output.Content.AppendHtml($"</{BreadcrumbManager.Options.ListTagName}>");
         }
 
         #endregion
@@ -140,14 +144,14 @@ namespace SmartBreadcrumbs
             // In case the node's title is still ViewData.Something
             string nodeTitle = ExtractTitle(node.Title);
 
-            var normalTemplate = BreadcrumbManager.Options.LiTemplate;
-            var activeTemplate = BreadcrumbManager.Options.ActiveLiTemplate;
+            var normalTemplate = BreadcrumbManager.Options.ListItemTemplate;
+            var activeTemplate = BreadcrumbManager.Options.ActiveListItemTemplate;
 
             if (!isActive && string.IsNullOrEmpty(normalTemplate))
-                return $"<li{GetClass(BreadcrumbManager.Options.LiClasses)}><a href=\"{link}\">{nodeTitle}</a></li>";
+                return $"<li{GetClass(BreadcrumbManager.Options.ListItemClasses)}><a href=\"{link}\">{nodeTitle}</a></li>";
 
             if (isActive && string.IsNullOrEmpty(activeTemplate))
-                return $"<li{GetClass(BreadcrumbManager.Options.ActiveLiClasses)}>{nodeTitle}</li>";
+                return $"<li{GetClass(BreadcrumbManager.Options.ActiveListItemClasses)}>{nodeTitle}</li>";
 
             // Templates
             string templateToUse = isActive ? activeTemplate : normalTemplate;

@@ -2,33 +2,37 @@
 {
     public class BreadcrumbOptions
     {
-
         #region Properties
 
         /// <summary>
         /// The parent element tag name.
         /// </summary>
-        public string TagName { get; set; }
+        public string ParentTagName { get; set; }
 
         /// <summary>
         /// The parent element tag classes (seperated by a space).
         /// </summary>
-        public string TagClasses { get; set; }
+        public string ParentTagClasses { get; set; }
 
         /// <summary>
-        /// The classes of OL elements.
+        /// The list element tag name. Either 'ol' for an ordered list, or 'ul' for an unordered list.
         /// </summary>
-        public string OlClasses { get; set; }
+        public string ListTagName { get; set; }
 
         /// <summary>
-        /// The classes of LI elements.
+        /// The list element tag classes (separated by a space).
         /// </summary>
-        public string LiClasses { get; set; }
+        public string ListTagClasses { get; set; }
 
         /// <summary>
-        /// The classes of the active LI element.
+        /// The classes of the LI element (separated by a space).
         /// </summary>
-        public string ActiveLiClasses { get; set; }
+        public string ListItemClasses { get; set; }
+
+        /// <summary>
+        /// The classes of the active LI element (separated by a space).
+        /// </summary>
+        public string ActiveListItemClasses { get; set; }
 
         /// <summary>
         /// In case you want to insert a seperator element between items.\n
@@ -40,13 +44,13 @@
         /// Example: &lt;li&gt;&lt;a href="{1}"&gt;{0}&lt;/a&gt;&lt;/li&gt;
         /// <para>PS: IconClasses will have an index of 2.</para>
         /// </summary>
-        public string LiTemplate { get; set; }
+        public string ListItemTemplate { get; set; }
 
         /// <summary>
         /// Example: &lt;li class="active"&gt;&lt;a href="{1}"&gt;{0}&lt;/a&gt;&lt;/li&gt;
         /// <para>PS: IconClasses will have an index of 2.</para>
         /// </summary>
-        public string ActiveLiTemplate { get; set; }
+        public string ActiveListItemTemplate { get; set; }
 
         /// <summary>
         /// Set to true if you don't want to have a default node in your project.
@@ -66,23 +70,23 @@
 
         public BreadcrumbOptions()
         {
-            TagName = "nav";
-            OlClasses = "breadcrumb";
-            LiClasses = "breadcrumb-item";
-            ActiveLiClasses = "breadcrumb-item active";
+            ParentTagName = "nav";
+            ListTagClasses = "breadcrumb";
+            ListItemClasses = "breadcrumb-item";
+            ActiveListItemClasses = "breadcrumb-item active";
             DefaultAction = "Index";
         }
 
-        public BreadcrumbOptions(string tagName, string olClasses, string liClasses, string activeLiClasses, string tagClasses = null, string separatorElement = null, string defaultAction = "Index")
+        public BreadcrumbOptions(string parentTagName, string listTagName, string listClasses, string listItemClasses, string activeListItemClasses, string parentTagClasses = null, string separatorElement = null, string defaultAction = "Index")
         {
-            TagName = tagName;
-            OlClasses = olClasses;
-            LiClasses = liClasses;
-            ActiveLiClasses = activeLiClasses;
-            TagClasses = tagClasses;
+            ParentTagName = parentTagName;
+            ListTagName = listTagName;
+            ListTagClasses = listClasses;
+            ListItemClasses = listItemClasses;
+            ActiveListItemClasses = activeListItemClasses;
+            ParentTagClasses = parentTagClasses;
             SeparatorElement = separatorElement;
             DefaultAction = defaultAction;
         }
-
     }
 }

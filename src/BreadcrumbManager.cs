@@ -11,10 +11,9 @@ namespace SmartBreadcrumbs
 {
     public class BreadcrumbManager
     {
-
         #region Fields
 
-        private readonly Dictionary<string, BreadcrumbNode> _nodes;
+        private readonly Dictionary<string, BreadcrumbNode> _nodes = new Dictionary<string, BreadcrumbNode>();
 
         #endregion
 
@@ -28,7 +27,6 @@ namespace SmartBreadcrumbs
 
         public BreadcrumbManager(BreadcrumbOptions options)
         {
-            _nodes = new Dictionary<string, BreadcrumbNode>();
             Options = options;
         }
 
@@ -123,6 +121,7 @@ namespace SmartBreadcrumbs
 
             return true;
         }
+
         private bool TryGetBreadcrumbNodeEntry(Type type, out BreadcrumbNodeEntry entry)
         {
             entry = null;
@@ -147,6 +146,7 @@ namespace SmartBreadcrumbs
 
             return true;
         }
+
         private IEnumerable<BreadcrumbNodeEntry> TryExtractingEntries(Type type)
         {
             if (!type.IsController())
@@ -201,17 +201,15 @@ namespace SmartBreadcrumbs
                             Default = attr.Default
                         };
                     }
-                }                
+                }
             }
         }
 
         #endregion
-
     }
 
     internal class BreadcrumbNodeEntry
     {
-
         public string Key { get; set; }
 
         public BreadcrumbNode Node { get; set; }
@@ -219,6 +217,5 @@ namespace SmartBreadcrumbs
         public string FromKey { get; set; }
 
         public bool Default { get; set; }
-
     }
 }
