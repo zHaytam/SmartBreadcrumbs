@@ -67,6 +67,11 @@
         /// </summary>
         public string DefaultAction { get; set; }
 
+        /// <summary>
+        /// Whether to use the method's name when no Title was provided.
+        /// </summary>
+        public bool FallbackTitleToMethodName { get; set; }
+
         #endregion
 
         public BreadcrumbOptions()
@@ -77,11 +82,12 @@
             ActiveLiClasses = "breadcrumb-item active";
             InferFromAction = true;
             DefaultAction = "Index";
+            FallbackTitleToMethodName = true;
         }
 
         public BreadcrumbOptions(string tagName, string olClasses, string liClasses,
             string activeLiClasses, string tagClasses = null, string separatorElement = null,
-            bool inferFromAction = true, string defaultAction = "Index")
+            bool inferFromAction = true, string defaultAction = "Index", bool fallbackTitleToMethodName = true)
         {
             TagName = tagName;
             OlClasses = olClasses;
@@ -91,6 +97,7 @@
             SeparatorElement = separatorElement;
             InferFromAction = inferFromAction;
             DefaultAction = defaultAction;
+            FallbackTitleToMethodName = fallbackTitleToMethodName;
         }
 
     }

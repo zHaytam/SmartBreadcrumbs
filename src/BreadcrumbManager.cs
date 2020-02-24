@@ -169,13 +169,13 @@ namespace SmartBreadcrumbs
                 }
 
                 //if no title is given, then fallback to method name.
-                if (string.IsNullOrWhiteSpace(attr.Title))
+                if (Options.FallbackTitleToMethodName && string.IsNullOrWhiteSpace(attr.Title))
                     attr.Title = method.Name;
 
                 string key = type.ExtractMvcKey(method);
                 //Get all HttpXXX attributes as strings
                 IEnumerable<string> httpMethods = method.ExtractHttpMethodAttributes();
-                
+
                 //this prevents duplication if a identically named action exists which only differs in httpmethod
                 if (httpMethods.Where(m => m != HttpMethods.Get).Count() == 0)
                 {
@@ -201,7 +201,7 @@ namespace SmartBreadcrumbs
                             Default = attr.Default
                         };
                     }
-                }                
+                }
             }
         }
 
