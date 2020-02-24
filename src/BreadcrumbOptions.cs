@@ -58,9 +58,14 @@
         public bool HasSeparatorElement => !string.IsNullOrEmpty(SeparatorElement);
 
         /// <summary>
+        /// Whether to use DefaultAction when a method doesn't specify FromAction, FromController and FromPage.
+        /// </summary>
+        public bool InferFromAction { get; set; }
+
+        /// <summary>
         /// The action to call when only a controller is known, e.g. nameof(HomeController.Index).
         /// </summary>
-        public string DefaultAction { get; }
+        public string DefaultAction { get; set; }
 
         #endregion
 
@@ -70,10 +75,13 @@
             OlClasses = "breadcrumb";
             LiClasses = "breadcrumb-item";
             ActiveLiClasses = "breadcrumb-item active";
+            InferFromAction = true;
             DefaultAction = "Index";
         }
 
-        public BreadcrumbOptions(string tagName, string olClasses, string liClasses, string activeLiClasses, string tagClasses = null, string separatorElement = null, string defaultAction = "Index")
+        public BreadcrumbOptions(string tagName, string olClasses, string liClasses,
+            string activeLiClasses, string tagClasses = null, string separatorElement = null,
+            bool inferFromAction = true, string defaultAction = "Index")
         {
             TagName = tagName;
             OlClasses = olClasses;
@@ -81,6 +89,7 @@
             ActiveLiClasses = activeLiClasses;
             TagClasses = tagClasses;
             SeparatorElement = separatorElement;
+            InferFromAction = inferFromAction;
             DefaultAction = defaultAction;
         }
 

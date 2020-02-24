@@ -162,7 +162,7 @@ namespace SmartBreadcrumbs
                     continue;
 
                 //if no fromController/page and no fromAction is given and we are not handling the defaultAction, infer fromController/Action from type.
-                if (attr.FromController == null && attr.FromPage == null &&
+                if (Options.InferFromAction && attr.FromController == null && attr.FromPage == null &&
                     string.IsNullOrWhiteSpace(attr.FromAction) && Options.DefaultAction != method.Name)
                 {
                     attr.FromAction = Options.DefaultAction;
