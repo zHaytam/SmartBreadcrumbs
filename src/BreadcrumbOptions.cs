@@ -2,7 +2,6 @@
 {
     public class BreadcrumbOptions
     {
-
         #region Properties
 
         /// <summary>
@@ -72,7 +71,13 @@
         /// </summary>
         public bool FallbackTitleToMethodName { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Application relative path used as the root of discovery for Razor Page files
+        /// Defaults to the /Pages directory under application root.
+        /// </summary>
+        public string RazorPagesRootDirectory { get; set; }
+
+        #endregion Properties
 
         public BreadcrumbOptions()
         {
@@ -83,11 +88,13 @@
             InferFromAction = true;
             DefaultAction = "Index";
             FallbackTitleToMethodName = true;
+            RazorPagesRootDirectory = "Pages";
         }
 
         public BreadcrumbOptions(string tagName, string olClasses, string liClasses,
             string activeLiClasses, string tagClasses = null, string separatorElement = null,
-            bool inferFromAction = true, string defaultAction = "Index", bool fallbackTitleToMethodName = true)
+            bool inferFromAction = true, string defaultAction = "Index", bool fallbackTitleToMethodName = true,
+            string razorPagesRootDirectory = "Pages")
         {
             TagName = tagName;
             OlClasses = olClasses;
@@ -98,7 +105,7 @@
             InferFromAction = inferFromAction;
             DefaultAction = defaultAction;
             FallbackTitleToMethodName = fallbackTitleToMethodName;
+            RazorPagesRootDirectory = razorPagesRootDirectory;
         }
-
     }
 }
