@@ -72,8 +72,8 @@
         public bool FallbackTitleToMethodName { get; set; }
 
         /// <summary>
-        /// Application relative path used as the root of discovery for Razor Page files
-        /// Defaults to the /Pages directory under application root.
+        /// Application path used as the root of discovery for Razor Page files.
+        /// Defaults to the "Pages" directory under application root.
         /// </summary>
         public string RazorPagesRootDirectory { get; set; }
 
