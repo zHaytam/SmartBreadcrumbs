@@ -84,21 +84,7 @@ namespace SmartBreadcrumbs.UnitTests
         public void ExtractRazorPageKey_ShouldReturnCorrectPath_WhenDefaultRazorPagesRootDirectoryIsPages(Type type, string expectedPath)
         {
             Assert.Equal(expectedPath, type.ExtractRazorPageKey());
-        }
-
-        [Theory]
-        [InlineData(typeof(Orders), "/Orders")]        
-        [InlineData(typeof(ProductsModel), "/Products")]
-        [InlineData(typeof(SubFeatureModel), "/FeatureOne/SubFeature")]
-        public void ExtractRazorPageKey_ShouldReturnCorrectPath_WhenRazorPagesRootDirectoryIsModified(Type type, string expectedPath)
-        {
-            var bm = new BreadcrumbManager(new BreadcrumbOptions { 
-                RazorPagesRootDirectory = "Features"
-            });
-            bm.Initialize(GetType().Assembly);
-
-            Assert.Equal(expectedPath, type.ExtractRazorPageKey());
-        }
+        }        
 
         #endregion ExtractRazorPageKey
 
@@ -148,5 +134,27 @@ namespace SmartBreadcrumbs.UnitTests
         }
 
         #endregion ExtractMvcKey
+
+        public class ReflectionExtensionsTests_ModifiedRazorPagesRootDirectory : IDisposable
+        {
+            public ReflectionExtensionsTests_ModifiedRazorPagesRootDirectory()
+            {
+                BreadcrumbManager.Options.RazorPagesRootDirectory = "Features";
+            }
+
+            public void Dispose()
+            {
+                BreadcrumbManager.Options.RazorPagesRootDirectory = "Pages";
+            }
+
+            [Theory]
+            [InlineData(typeof(Orders), "/Orders")]
+            [InlineData(typeof(ProductsModel), "/Products")]
+            [InlineData(typeof(SubFeatureModel), "/FeatureOne/SubFeature")]
+            public void ExtractRazorPageKey_ShouldReturnCorrectPath_WhenRazorPagesRootDirectoryIsModified(Type type, string expectedPath)
+            {
+                Assert.Equal(expectedPath, type.ExtractRazorPageKey());
+            }
+        }
     }
 }
