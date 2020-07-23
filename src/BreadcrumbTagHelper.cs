@@ -51,6 +51,10 @@ namespace SmartBreadcrumbs
             var node = ViewContext.ViewData["BreadcrumbNode"] as BreadcrumbNode ?? _breadcrumbManager.GetNode(nodeKey);
 
             output.TagName = BreadcrumbManager.Options.TagName;
+            if (!string.IsNullOrWhiteSpace(BreadcrumbManager.Options.AriaLabel))
+            {
+                output.Attributes.Add("aria-label", BreadcrumbManager.Options.AriaLabel);
+            }
 
             // Tag Classes
             if (!string.IsNullOrEmpty(BreadcrumbManager.Options.TagClasses))

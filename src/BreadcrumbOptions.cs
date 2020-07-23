@@ -77,6 +77,11 @@
         /// </summary>
         public string RazorPagesRootDirectory { get; set; }
 
+        /// <summary>
+        /// A description that describes the navigation to screen reader users.
+        /// </summary>
+        public string AriaLabel { get; set; }
+
         #endregion Properties
 
         public BreadcrumbOptions()
@@ -89,12 +94,13 @@
             DefaultAction = "Index";
             FallbackTitleToMethodName = true;
             RazorPagesRootDirectory = "Pages";
+            AriaLabel = "breadcrumbs";
         }
 
         public BreadcrumbOptions(string tagName, string olClasses, string liClasses,
             string activeLiClasses, string tagClasses = null, string separatorElement = null,
             bool inferFromAction = true, string defaultAction = "Index", bool fallbackTitleToMethodName = true,
-            string razorPagesRootDirectory = "Pages")
+            string razorPagesRootDirectory = "Pages", string ariaLabel = "breadcrumbs")
         {
             TagName = tagName;
             OlClasses = olClasses;
@@ -106,6 +112,7 @@
             DefaultAction = defaultAction;
             FallbackTitleToMethodName = fallbackTitleToMethodName;
             RazorPagesRootDirectory = razorPagesRootDirectory;
+            AriaLabel = ariaLabel;
         }
     }
 }
