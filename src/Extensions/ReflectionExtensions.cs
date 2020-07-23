@@ -11,15 +11,14 @@ namespace SmartBreadcrumbs.Extensions
 {
     public static class ReflectionExtensions
     {
-
         #region Fields
 
         private static readonly Type PageModelType = typeof(PageModel);
         private static readonly Type ControllerType = typeof(Controller);
         private static readonly Type ActionResultType = typeof(IActionResult);
         private static readonly Type GenericTaskType = typeof(Task<>);
-        
-        #endregion
+
+        #endregion Fields
 
         public static bool IsController(this Type type)
             => type != null && ControllerType.IsAssignableFrom(type);
@@ -40,12 +39,14 @@ namespace SmartBreadcrumbs.Extensions
             if (pageType == null)
                 throw new ArgumentNullException(nameof(pageType));
 
-            string fullName = pageType.FullName;
-            int pagesIndex = fullName.IndexOf(".Pages.");
-            if (pagesIndex == -1)
-                throw new SmartBreadcrumbsException($"The full name {fullName} doesn't contain 'Pages'.");
+            string razorPagesRootDirectory = BreadcrumbManager.Options.RazorPagesRootDirectory;
 
-            int startIndex = pagesIndex + 6;
+            string fullName = pageType.FullName;
+            int pagesIndex = fullName.IndexOf($".{razorPagesRootDirectory}.");
+            if (pagesIndex == -1)
+                throw new SmartBreadcrumbsException($"The full name {fullName} doesn't contain '{razorPagesRootDirectory}'.");
+
+            int startIndex = pagesIndex + razorPagesRootDirectory.Length + 1;
             int endIndex = fullName.EndsWith("Model") ? fullName.Length - 5 : fullName.Length;
             return fullName.Substring(startIndex, endIndex - startIndex).Replace('.', '/');
         }

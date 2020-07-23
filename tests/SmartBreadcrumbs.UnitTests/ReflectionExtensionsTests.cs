@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SmartBreadcrumbs.Controllers.SubFolder;
 using SmartBreadcrumbs.Extensions;
+using SmartBreadcrumbs.UnitTests.Features;
+using SmartBreadcrumbs.UnitTests.Features.FeatureOne;
 using SmartBreadcrumbs.UnitTests.Pages;
 using SmartBreadcrumbs.UnitTests.Pages.SubFolder1;
 using Xunit;
@@ -14,7 +14,6 @@ namespace SmartBreadcrumbs.UnitTests
 {
     public class ReflectionExtensionsTests
     {
-
         #region IsController
 
         [Theory]
@@ -26,7 +25,7 @@ namespace SmartBreadcrumbs.UnitTests
             Assert.Equal(expected, type.IsController());
         }
 
-        #endregion
+        #endregion IsController
 
         #region IsRazorPage
 
@@ -39,7 +38,7 @@ namespace SmartBreadcrumbs.UnitTests
             Assert.Equal(expected, type.IsRazorPage());
         }
 
-        #endregion
+        #endregion IsRazorPage
 
         #region IsAction
 
@@ -58,7 +57,7 @@ namespace SmartBreadcrumbs.UnitTests
             Assert.Equal(expected, type.IsAction());
         }
 
-        #endregion
+        #endregion IsAction
 
         #region ExtractRazorPageKey
 
@@ -70,7 +69,7 @@ namespace SmartBreadcrumbs.UnitTests
         }
 
         [Fact]
-        public void ExtractRazorPageKey_ShouldThrowSmartBreadcrumbsException_WhenFullNameDoesntContainPages()
+        public void ExtractRazorPageKey_ShouldThrowSmartBreadcrumbsException_WhenDefaultRazorPagesRootDirectoryIsPages()
         {
             var type = typeof(TestClassThree);
             var ex = Assert.Throws<SmartBreadcrumbsException>(() => type.ExtractRazorPageKey());
@@ -82,12 +81,12 @@ namespace SmartBreadcrumbs.UnitTests
         [InlineData(typeof(TestClassTwo), "/TestClassTwo")]
         [InlineData(typeof(SomePage1Model), "/SomePage1")]
         [InlineData(typeof(SomeModelPageModel), "/SomeModelPage")]
-        public void ExtractRazorPageKey_ShouldReturnCorrectPath(Type type, string expectedPath)
+        public void ExtractRazorPageKey_ShouldReturnCorrectPath_WhenDefaultRazorPagesRootDirectoryIsPages(Type type, string expectedPath)
         {
             Assert.Equal(expectedPath, type.ExtractRazorPageKey());
-        }
+        }        
 
-        #endregion
+        #endregion ExtractRazorPageKey
 
         #region ExtractMvcControllerKey
 
@@ -107,7 +106,7 @@ namespace SmartBreadcrumbs.UnitTests
             Assert.Equal($"{expectedKey}.{defaultAction}", fromController.ExtractMvcControllerKey());
         }
 
-        #endregion
+        #endregion ExtractMvcControllerKey
 
         #region ExtractMvcKey
 
@@ -134,7 +133,28 @@ namespace SmartBreadcrumbs.UnitTests
             Assert.Equal(expectedKey, fromController.ExtractMvcKey(actionMethod));
         }
 
-        #endregion
+        #endregion ExtractMvcKey
 
+        public class ReflectionExtensionsTests_ModifiedRazorPagesRootDirectory : IDisposable
+        {
+            public ReflectionExtensionsTests_ModifiedRazorPagesRootDirectory()
+            {
+                BreadcrumbManager.Options.RazorPagesRootDirectory = "Features";
+            }
+
+            public void Dispose()
+            {
+                BreadcrumbManager.Options.RazorPagesRootDirectory = "Pages";
+            }
+
+            [Theory]
+            [InlineData(typeof(Orders), "/Orders")]
+            [InlineData(typeof(ProductsModel), "/Products")]
+            [InlineData(typeof(SubFeatureModel), "/FeatureOne/SubFeature")]
+            public void ExtractRazorPageKey_ShouldReturnCorrectPath_WhenRazorPagesRootDirectoryIsModified(Type type, string expectedPath)
+            {
+                Assert.Equal(expectedPath, type.ExtractRazorPageKey());
+            }
+        }
     }
 }
