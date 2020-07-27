@@ -47,8 +47,8 @@ namespace SmartBreadcrumbs
         {
             var child = await output.GetChildContentAsync();
 
-            string nodeKey = GetNodeKey(ViewContext.ActionDescriptor.RouteValues);
-            var node = ViewContext.ViewData["BreadcrumbNode"] as BreadcrumbNode ?? _breadcrumbManager.GetNode(nodeKey);
+            var nodeKey = new NodeKey(ViewContext.ActionDescriptor.RouteValues, ViewContext.HttpContext.Request.Method);
+            var node = ViewContext.ViewData["BreadcrumbNode"] as BreadcrumbNode ?? _breadcrumbManager.GetNode(nodeKey.Value);
 
             output.TagName = BreadcrumbManager.Options.TagName;
             if (!string.IsNullOrWhiteSpace(BreadcrumbManager.Options.AriaLabel))
@@ -110,19 +110,6 @@ namespace SmartBreadcrumbs
         #endregion
 
         #region Private Methods
-
-        private string GetNodeKey(IDictionary<string, string> routeValues)
-        {
-            if (routeValues.ContainsKey("page") && !string.IsNullOrWhiteSpace(routeValues["page"]))
-                return routeValues["page"];
-            else if (routeValues.ContainsKey("controller") && !routeValues.ContainsKey("action"))
-                return $"{routeValues["controller"]}";
-
-            if (!HttpMethods.IsGet(ViewContext.HttpContext.Request.Method))
-                return $"{routeValues["controller"]}.{routeValues["action"]}#{ViewContext.HttpContext.Request.Method}";
-
-            return $"{routeValues["controller"]}.{routeValues["action"]}";
-        }
 
         private string ExtractTitle(string title)
         {
