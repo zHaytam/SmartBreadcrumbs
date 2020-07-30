@@ -58,6 +58,36 @@
             <li>
                 <a asp-action="XssTest" asp-controller="Other">XSS Test</a>
             </li>
+            <li>
+                <a asp-action="Index" asp-controller="Home" asp-area="VisualBasic">Visual Basic</a>
+                <ul>
+                    <li>
+                        <a asp-action="Index" asp-controller="Easy" asp-area="VisualBasic">Easy</a>
+                        <ul>
+                            <li>
+                                <a asp-action="Sub" asp-controller="Easy" asp-area="VisualBasic">Sub Easy</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-action="More" asp-controller="Easy" asp-area="VisualBasic">More Easy</a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Advanced" asp-area="VisualBasic">Advanced</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Home" asp-area="JavaScript">JavaScript</a>
+                <ul>
+                    <li>
+                        <a asp-action="Index" asp-controller="Easy" asp-area="JavaScript">Easy</a>
+                    </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Advanced" asp-area="JavaScript">Advanced</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </li>
     <li>

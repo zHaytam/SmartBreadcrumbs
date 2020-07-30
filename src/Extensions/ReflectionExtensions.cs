@@ -59,7 +59,10 @@ namespace SmartBreadcrumbs.Extensions
             if (actionMethod == null)
                 throw new ArgumentNullException(nameof(actionMethod));
 
-            return $"{controllerType.Name.Replace("Controller", "")}.{actionMethod.Name}";
+            string key = $"{controllerType.Name.Replace("Controller", "")}.{actionMethod.Name}";
+
+            var areaAttr = controllerType.GetCustomAttribute<AreaAttribute>(inherit: true);
+            return areaAttr != null ? $"{areaAttr.RouteValue}.{key}" : key;
         }
 
         public static string ExtractMvcControllerKey(this Type controllerType)
@@ -67,7 +70,10 @@ namespace SmartBreadcrumbs.Extensions
             if (controllerType == null)
                 throw new ArgumentNullException(nameof(controllerType));
 
-            return $"{controllerType.Name.Replace("Controller", "")}.{BreadcrumbManager.Options.DefaultAction}";
+            string key = $"{controllerType.Name.Replace("Controller", "")}.{BreadcrumbManager.Options.DefaultAction}";
+
+            var areaAttr = controllerType.GetCustomAttribute<AreaAttribute>(inherit: true);
+            return areaAttr != null ? $"{areaAttr.RouteValue}.{key}" : key;
         }
 
         private static bool IsActionTypeGenericTaskOfIActionResult(Type type)

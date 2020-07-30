@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Visual Basic";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Visual Basic</h1>
+
+<ul>
+    <li>
+        <a asp-action="Index" asp-controller="Easy">Easy</a>
+        <ul>
+            <li>
+                <a asp-action="Sub" asp-controller="Easy">Sub Easy</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a asp-action="More" asp-controller="Easy">More Easy</a>
+    </li>
+    <li>
+        <a asp-action="Index" asp-controller="Advanced">Advanced</a>
+    </li>
+</ul>
