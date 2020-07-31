@@ -19,13 +19,14 @@ namespace SmartBreadcrumbs.Nodes
         {
             if (routeValues == null)
                 throw new ArgumentNullException(nameof(routeValues));
+
             if (string.IsNullOrWhiteSpace(method))
                 throw new ArgumentNullException(nameof(method));
 
-            _page = routeValues["page"];
-            _area = routeValues["area"];
-            _action = routeValues["action"];
-            _controller = routeValues["controller"];
+            routeValues.TryGetValue("page", out _page);
+            routeValues.TryGetValue("area", out _area);
+            routeValues.TryGetValue("action", out _action);
+            routeValues.TryGetValue("controller", out _controller);
             _method = method;
         }
 

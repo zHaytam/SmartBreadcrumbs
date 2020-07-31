@@ -10,10 +10,10 @@
     <Description>A utility library for ASP.NET Core (both MVC and Razor Pages) websites to easily add and customize breadcrumbs.</Description>
     <PackageTags>asp-net-core breadcrumbs utility-library bootstrap smartbreadcrumbs</PackageTags>
     <Copyright>zHaytam</Copyright>
-    <Version>3.4</Version>
+    <Version>3.5</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyVersion>3.4.0.0</AssemblyVersion>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
