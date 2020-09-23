@@ -70,7 +70,7 @@ namespace SmartBreadcrumbs
             if (node != null)
             {
                 if (node.OverwriteTitleOnExactMatch && node.Title.StartsWith("ViewData."))
-                    node.Title = ExtractTitle(node.OriginalTitle);
+                    node.Title = ExtractTitle(node.OriginalTitle, false);
 
                 sb.Insert(0, GetLi(node, node.GetUrl(_urlHelper), true));
 
@@ -111,14 +111,14 @@ namespace SmartBreadcrumbs
 
         #region Private Methods
 
-        private string ExtractTitle(string title)
+        private string ExtractTitle(string title, bool encode = true)
         {
             if (!title.StartsWith("ViewData."))
-                return _htmlEncoder.Encode(title);
+                return encode ? _htmlEncoder.Encode(title) : title;
 
             string key = title.Substring(9);
             title = ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : $"{key} Not Found";
-            return _htmlEncoder.Encode(title);
+            return encode ? _htmlEncoder.Encode(title) : title;
         }
 
         private static string GetClass(string classes)
