@@ -6,7 +6,7 @@ A utility library for ASP.NET Core (both MVC and Razor Pages) websites to easily
 
 When I created SmartBreadcrumbs, it only worked on MVC websites.  
 Razor Pages then came out and became "more popular", so I rewrote the whole code base, cleaned the project's structure, wrote unit tests and now, SmartBreadcrumbs works on both MVC and Razor Pages websites, even on the same project.  
-**If you're interested in the README of the old version, it's available here: [OLD_README](https://github.com/zHaytam/SmartBreadcrumbs/blob/master/OLD_README.md).**
+**If you're interested in the README of the old version, it's available here: [OLD_README](https://github.com/zHaytam/SmartBreadcrumbs/blob/master/OLD_README.md)(Click It).**
 
 ## Informations
 
