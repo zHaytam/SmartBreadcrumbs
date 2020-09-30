@@ -23,7 +23,7 @@ Razor Pages then came out and became "more popular", so I rewrote the whole code
 
 ## Usage
 
-### Install
+### Install The Package
 
 Install the package using NuGet  
 `Install-Package SmartBreadcrumbs`
