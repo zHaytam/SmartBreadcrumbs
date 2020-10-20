@@ -35,13 +35,10 @@ namespace SmartBreadcrumbs.Nodes
             OverwriteTitleOnExactMatch = overwriteTitleOnExactMatch;
             IconClasses = iconClasses;
 
-            if (!string.IsNullOrWhiteSpace(areaName))
+            RouteValues = new
             {
-                RouteValues = new
-                {
-                    area = areaName
-                };
-            }
+                area = areaName?.Trim() ?? string.Empty
+            };
         }
 
         #region Public Methods
