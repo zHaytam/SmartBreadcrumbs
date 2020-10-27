@@ -1,4 +1,6 @@
-﻿namespace SmartBreadcrumbs
+﻿using System;
+
+namespace SmartBreadcrumbs
 {
     public class BreadcrumbOptions
     {
@@ -81,6 +83,7 @@
         /// A description that describes the navigation to screen reader users.
         /// </summary>
         public string AriaLabel { get; set; }
+        public Type ResourceType { get; set; }
 
         #endregion Properties
 
@@ -95,12 +98,13 @@
             FallbackTitleToMethodName = true;
             RazorPagesRootDirectory = "Pages";
             AriaLabel = "breadcrumbs";
+            ResourceType = null;
         }
 
         public BreadcrumbOptions(string tagName, string olClasses, string liClasses,
             string activeLiClasses, string tagClasses = null, string separatorElement = null,
             bool inferFromAction = true, string defaultAction = "Index", bool fallbackTitleToMethodName = true,
-            string razorPagesRootDirectory = "Pages", string ariaLabel = "breadcrumbs")
+            string razorPagesRootDirectory = "Pages", string ariaLabel = "breadcrumbs", Type resourceType = null)
         {
             TagName = tagName;
             OlClasses = olClasses;
@@ -113,6 +117,7 @@
             FallbackTitleToMethodName = fallbackTitleToMethodName;
             RazorPagesRootDirectory = razorPagesRootDirectory;
             AriaLabel = ariaLabel;
+            ResourceType = null;
         }
     }
 }

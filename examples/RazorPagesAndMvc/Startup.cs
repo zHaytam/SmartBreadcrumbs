@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using SmartBreadcrumbs.Extensions;
+using System.Globalization;
 
 namespace RazorPagesAndMvc
 {
@@ -34,12 +38,28 @@ namespace RazorPagesAndMvc
             });
 
             services.AddMvc((opt) => opt.EnableEndpointRouting = false)
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddBreadcrumbs(GetType().Assembly, options =>
             {
                 // Testing
                 options.DontLookForDefaultNode = true;
+                options.ResourceType = typeof(BreadcrumbResources);
+            });
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                var supportedCultures = new List<CultureInfo>() {
+                    new CultureInfo("es"),
+                    new CultureInfo("en"),
+                    new CultureInfo("ca")
+                };
+                opts.DefaultRequestCulture = new RequestCulture(culture: "en", uiCulture: "en");
+                opts.SupportedCultures = supportedCultures;
+                opts.SupportedUICultures = supportedCultures;
             });
         }
 
@@ -62,6 +82,9 @@ namespace RazorPagesAndMvc
             app.UseCookiePolicy();
 
             app.UseRouting();
+
+            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseEndpoints(endpoints =>
             {

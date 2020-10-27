@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.Localization;
 using SmartBreadcrumbs.Nodes;
 
 namespace SmartBreadcrumbs
@@ -22,6 +23,7 @@ namespace SmartBreadcrumbs
         private readonly BreadcrumbManager _breadcrumbManager;
         private readonly HtmlEncoder _htmlEncoder;
         private readonly IUrlHelper _urlHelper;
+        private readonly IStringLocalizer _localizer;
 
         #endregion
 
@@ -39,6 +41,9 @@ namespace SmartBreadcrumbs
             _breadcrumbManager = breadcrumbManager;
             _htmlEncoder = htmlEncoder;
             _urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
+            IStringLocalizerFactory factory = (IStringLocalizerFactory)actionContextAccessor.ActionContext.HttpContext.RequestServices.GetService(typeof(IStringLocalizerFactory));
+            if (factory!=null && BreadcrumbManager.Options.ResourceType != null)
+                _localizer = factory.Create(BreadcrumbManager.Options.ResourceType);
         }
 
         #region Public Methods
@@ -114,7 +119,13 @@ namespace SmartBreadcrumbs
         private string ExtractTitle(string title, bool encode = true)
         {
             if (!title.StartsWith("ViewData."))
+            {
+                if (_localizer != null)
+                {
+                    title = _localizer[title];
+                }
                 return encode ? _htmlEncoder.Encode(title) : title;
+            }
 
             string key = title.Substring(9);
             title = ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : $"{key} Not Found";
