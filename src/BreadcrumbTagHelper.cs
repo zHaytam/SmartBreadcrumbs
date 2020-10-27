@@ -41,8 +41,9 @@ namespace SmartBreadcrumbs
             _breadcrumbManager = breadcrumbManager;
             _htmlEncoder = htmlEncoder;
             _urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
+
             IStringLocalizerFactory factory = (IStringLocalizerFactory)actionContextAccessor.ActionContext.HttpContext.RequestServices.GetService(typeof(IStringLocalizerFactory));
-            if (factory!=null && BreadcrumbManager.Options.ResourceType != null)
+            if (factory != null && BreadcrumbManager.Options.ResourceType != null)
                 _localizer = factory.Create(BreadcrumbManager.Options.ResourceType);
         }
 
@@ -124,6 +125,7 @@ namespace SmartBreadcrumbs
                 {
                     title = _localizer[title];
                 }
+
                 return encode ? _htmlEncoder.Encode(title) : title;
             }
 
@@ -132,10 +134,7 @@ namespace SmartBreadcrumbs
             return encode ? _htmlEncoder.Encode(title) : title;
         }
 
-        private static string GetClass(string classes)
-        {
-            return string.IsNullOrEmpty(classes) ? "" : $" class=\"{classes}\"";
-        }
+        private static string GetClass(string classes) => string.IsNullOrEmpty(classes) ? "" : $" class=\"{classes}\"";
 
         private string GetLi(BreadcrumbNode node, string link, bool isActive)
         {
