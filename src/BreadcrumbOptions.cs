@@ -1,4 +1,6 @@
-﻿namespace SmartBreadcrumbs
+﻿using System;
+
+namespace SmartBreadcrumbs
 {
     public class BreadcrumbOptions
     {
@@ -82,6 +84,11 @@
         /// </summary>
         public string AriaLabel { get; set; }
 
+        /// <summary>
+        /// The type of resource that will be used for the translation of the BreadcrumbNode title
+        /// </summary>
+        public Type ResourceType { get; set; }
+
         #endregion Properties
 
         public BreadcrumbOptions()
@@ -95,12 +102,13 @@
             FallbackTitleToMethodName = true;
             RazorPagesRootDirectory = "Pages";
             AriaLabel = "breadcrumbs";
+            ResourceType = null;
         }
 
         public BreadcrumbOptions(string tagName, string olClasses, string liClasses,
             string activeLiClasses, string tagClasses = null, string separatorElement = null,
             bool inferFromAction = true, string defaultAction = "Index", bool fallbackTitleToMethodName = true,
-            string razorPagesRootDirectory = "Pages", string ariaLabel = "breadcrumbs")
+            string razorPagesRootDirectory = "Pages", string ariaLabel = "breadcrumbs", Type resourceType = null)
         {
             TagName = tagName;
             OlClasses = olClasses;
@@ -113,6 +121,7 @@
             FallbackTitleToMethodName = fallbackTitleToMethodName;
             RazorPagesRootDirectory = razorPagesRootDirectory;
             AriaLabel = ariaLabel;
+            ResourceType = resourceType;
         }
     }
 }
