@@ -83,6 +83,10 @@ namespace SmartBreadcrumbs
         /// A description that describes the navigation to screen reader users.
         /// </summary>
         public string AriaLabel { get; set; }
+
+        /// <summary>
+        /// The type of resource that will be used for the translation of the BreadcrumbNode title
+        /// </summary>
         public Type ResourceType { get; set; }
 
         #endregion Properties
@@ -117,7 +121,7 @@ namespace SmartBreadcrumbs
             FallbackTitleToMethodName = fallbackTitleToMethodName;
             RazorPagesRootDirectory = razorPagesRootDirectory;
             AriaLabel = ariaLabel;
-            ResourceType = null;
+            ResourceType = resourceType;
         }
     }
 }
