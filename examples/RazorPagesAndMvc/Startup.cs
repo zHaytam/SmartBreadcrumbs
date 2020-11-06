@@ -45,7 +45,7 @@ namespace RazorPagesAndMvc
             {
                 // Testing
                 options.DontLookForDefaultNode = true;
-                options.ResourceType = typeof(BreadcrumbResources);
+                options.ResourceType = typeof(Resx.BreadcrumbResources);
             });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -60,6 +60,12 @@ namespace RazorPagesAndMvc
                 opts.DefaultRequestCulture = new RequestCulture(culture: "en", uiCulture: "en");
                 opts.SupportedCultures = supportedCultures;
                 opts.SupportedUICultures = supportedCultures;
+                opts.RequestCultureProviders = new List<IRequestCultureProvider>
+                {
+                     new QueryStringRequestCultureProvider(),
+                     new CookieRequestCultureProvider() // Not implemented
+                };
+                opts.SetDefaultCulture("en");
             });
         }
 
