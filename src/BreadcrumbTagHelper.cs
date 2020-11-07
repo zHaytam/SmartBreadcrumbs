@@ -50,7 +50,6 @@ namespace SmartBreadcrumbs
                 var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
                 _localizer = factory.Create(BreadcrumbManager.Options.ResourceType.Name, assemblyName.Name);
             }
-
         }
 
         #region Public Methods
