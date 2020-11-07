@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -44,7 +45,12 @@ namespace SmartBreadcrumbs
 
             IStringLocalizerFactory factory = (IStringLocalizerFactory)actionContextAccessor.ActionContext.HttpContext.RequestServices.GetService(typeof(IStringLocalizerFactory));
             if (factory != null && BreadcrumbManager.Options.ResourceType != null)
-                _localizer = factory.Create(BreadcrumbManager.Options.ResourceType);
+            {
+                var type = BreadcrumbManager.Options.ResourceType;
+                var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+                _localizer = factory.Create(BreadcrumbManager.Options.ResourceType.Name, assemblyName.Name);
+            }
+
         }
 
         #region Public Methods

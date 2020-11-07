@@ -14,11 +14,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\BreadcrumbResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BreadcrumbResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Resources\BreadcrumbResources.es.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\BreadcrumbResources.ca.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\BreadcrumbResources.resx">
+      <CustomToolNamespace>Resx</CustomToolNamespace>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>BreadcrumbResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
