@@ -15,41 +15,41 @@ namespace SmartBreadcrumbs.Attributes
         /// The title of this breadcrumb item.
         /// <para>Can be "ViewData.Something", where Something is the key.</para>
         /// </summary>
-        public string Title { get; set; }
+        public virtual string Title { get; set; }
 
         /// <summary>
         /// The type of the page this breadcrumb item comes from.
         /// </summary>
-        public Type FromPage { get; set; }
+        public virtual Type FromPage { get; set; }
 
         /// <summary>
         /// The method name of the action this breadcrumb item comes from.
         /// </summary>
-        public string FromAction { get; set; }
+        public virtual string FromAction { get; set; }
 
         /// <summary>
         /// The type of the controller this breadcrumb item comes from.
         /// <para>If this is null, the same controller as the method is used.</para>
         /// <para>PS: This can't be null when used on a Breadcrumb.</para>
         /// </summary>
-        public Type FromController { get; set; }
+        public virtual Type FromController { get; set; }
 
         /// <summary>
         /// Wheither to replace the node's title with what was found in ViewData.
         /// <para>Only usable when the Title is "ViewData.Something".</para>
         /// </summary>
-        public bool OverwriteTitleOnExactMatch { get; set; }
+        public virtual bool OverwriteTitleOnExactMatch { get; set; }
 
         /// <summary>
         /// Only usable when you're providing a LiTemplate and ActiveLiTemplate.
         /// <para>Example: &lt;li&gt;&lt;a href=\"{1}\"&gt;&lt;i class=\"{2}\">&lt;/i&gt;{0}&lt;/a&gt;&lt;/li&gt;</para>
         /// </summary>
-        public string IconClasses { get; set; }
+        public virtual string IconClasses { get; set; }
 
         /// <summary>
         /// The area's name of this breadcrumb item (if needed).
         /// </summary>
-        public string AreaName { get; set; }
+        public virtual string AreaName { get; set; }
 
         /// <summary>
         /// Whether this is the default breadcrumb or not.
