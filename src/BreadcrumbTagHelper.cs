@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -135,7 +137,16 @@ namespace SmartBreadcrumbs
             }
 
             string key = title.Substring(9);
-            title = ViewContext.ViewData.ContainsKey(key) ? ViewContext.ViewData[key].ToString() : $"{key} Not Found";
+            if (ViewContext.ViewData.TryGetValue(key, out var v))
+                if (BreadcrumbManager.Options.AllowHtmlContent && v is IHtmlContent content)
+                    using (var writer = new StringWriter()) {
+                        content.WriteTo(writer, _htmlEncoder);
+                        return writer.ToString();
+                    }
+                else
+                    title = v.ToString();
+            else
+                title = $"{key} Not Found";
             return encode ? _htmlEncoder.Encode(title) : title;
         }
 
