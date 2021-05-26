@@ -89,6 +89,11 @@ namespace SmartBreadcrumbs
         /// </summary>
         public Type ResourceType { get; set; }
 
+        /// <summary>
+        /// Set to true if you want to allow IHtmlContent ViewData values to be written as raw HTML
+        /// </summary>
+        public bool AllowHtmlContent { get; set; }
+
         #endregion Properties
 
         public BreadcrumbOptions()
