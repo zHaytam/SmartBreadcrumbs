@@ -35,7 +35,7 @@ namespace SmartBreadcrumbs.Attributes
         public Type FromController { get; set; }
 
         /// <summary>
-        /// Wheither to replace the node's title with what was found in ViewData.
+        /// Whether to replace the node's title with what was found in ViewData.
         /// <para>Only usable when the Title is "ViewData.Something".</para>
         /// </summary>
         public bool OverwriteTitleOnExactMatch { get; set; }
@@ -93,7 +93,7 @@ namespace SmartBreadcrumbs.Attributes
                     throw new SmartBreadcrumbsException($"'{fromControllerType.Name}' is used in FromController but isn't a Controller.");
 
                 var actionMethod = fromControllerType.GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                    .FirstOrDefault(m=>m.Name == FromAction); //to prevent AmbiguousMatchException
+                    .FirstOrDefault(m => m.Name == FromAction); //to prevent AmbiguousMatchException
 
                 if (actionMethod == null || actionMethod.ReturnType.IsAction() == false)
                     throw new SmartBreadcrumbsException($"{fromControllerType.Name} doesn't contain a valid action named {FromAction}.");

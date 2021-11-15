@@ -12,7 +12,7 @@ namespace SmartBreadcrumbs
         public string TagName { get; set; }
 
         /// <summary>
-        /// The parent element tag classes (seperated by a space).
+        /// The parent element tag classes (separated by a space).
         /// </summary>
         public string TagClasses { get; set; }
 
@@ -32,7 +32,7 @@ namespace SmartBreadcrumbs
         public string ActiveLiClasses { get; set; }
 
         /// <summary>
-        /// In case you want to insert a seperator element between items.\n
+        /// In case you want to insert a separator element between items.\n
         /// <para>Example: &lt;li class="separator"&gt;/&lt;/li&gt;</para>
         /// </summary>
         public string SeparatorElement { get; set; }
