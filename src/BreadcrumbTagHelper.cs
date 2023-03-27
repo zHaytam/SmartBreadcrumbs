@@ -80,7 +80,7 @@ namespace SmartBreadcrumbs
             // Go down the hierarchy
             if (node != null)
             {
-                if (node.OverwriteTitleOnExactMatch && node.Title.StartsWith("ViewData."))
+                if (node.OverwriteTitleOnExactMatch && node.OriginalTitle.StartsWith("ViewData."))
                     node.Title = ExtractTitle(node.OriginalTitle, false);
 
                 sb.Insert(0, GetLi(node, node.GetUrl(_urlHelper), true));
